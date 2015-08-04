@@ -22,7 +22,10 @@ use Yii;
  * @property UserHasCourse[] $userHasCourses
  * @property Course[] $courses
  */
-class User extends \yii\db\ActiveRecord {
+class User extends \yii\db\ActiveRecord implements \yii\web\IdentityInterface {
+
+    public $authKey;
+    public $accessToken;
 
     /**
      * @inheritdoc
