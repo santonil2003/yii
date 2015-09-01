@@ -2,13 +2,17 @@
 
 namespace app\controllers;
 
+use Yii;
+use yii\filters\AccessControl;
+use yii\filters\VerbFilter;
+
 class AdminController extends \yii\web\Controller {
 
     public function behaviors() {
         return [
             'access' => [
                 'class' => AccessControl::className(),
-                'only' => ['logout', 'signup', 'about'],
+                'only' => ['logout', 'signup', 'about', 'index'],
                 'rules' => [
                     [
                         'actions' => ['signup'],
@@ -21,7 +25,7 @@ class AdminController extends \yii\web\Controller {
                         'roles' => ['@'],
                     ],
                     [
-                        'actions' => ['about'],
+                        'actions' => ['index'],
                         'allow' => true,
                         'roles' => ['@'],
                         'matchCallback' => function ($rule, $action) {

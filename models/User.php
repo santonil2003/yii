@@ -143,6 +143,10 @@ class User extends \yii\db\ActiveRecord implements \yii\web\IdentityInterface {
         return static::findOne(['username' => $username]);
     }
 
+    public static function isUserAdmin() {
+        return true;
+    }
+
     /**
      * generate random auth key 
      * @param type $insert 
