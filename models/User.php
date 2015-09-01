@@ -149,9 +149,15 @@ class User extends \yii\db\ActiveRecord implements \yii\web\IdentityInterface {
      * @return boolean 
      */
     public function beforeSave($insert) {
+
         if (parent::beforeSave($insert)) {
+
+            $this->modified_at = date('Y-m-d H:i:s');
+
             if ($this->isNewRecord) {
+                $this->access_token = \Yii::$app->security->generateRandomString();
                 $this->auth_key = \Yii::$app->security->generateRandomString();
+                $this->created_at = date('Y-m-d H:i:s');
             }
             return true;
         }

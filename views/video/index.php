@@ -6,15 +6,15 @@ use yii\grid\GridView;
 /* @var $this yii\web\View */
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
-$this->title = 'Roles';
+$this->title = 'Videos';
 $this->params['breadcrumbs'][] = $this->title;
 ?>
-<div class="role-index">
+<div class="video-index">
 
     <h1><?= Html::encode($this->title) ?></h1>
 
     <p>
-        <?= Html::a('Create Role', ['create'], ['class' => 'btn btn-success']) ?>
+        <?= Html::a('Create Video', ['create'], ['class' => 'btn btn-success']) ?>
     </p>
 
     <?= GridView::widget([
@@ -23,7 +23,12 @@ $this->params['breadcrumbs'][] = $this->title;
             ['class' => 'yii\grid\SerialColumn'],
 
             'id',
-            'name',
+            'course_id',
+            'title',
+            'description:ntext',
+            'user_id',
+            // 'created_at',
+            // 'modified_at',
 
             ['class' => 'yii\grid\ActionColumn'],
         ],
