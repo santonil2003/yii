@@ -144,11 +144,19 @@ class User extends \yii\db\ActiveRecord implements \yii\web\IdentityInterface {
     }
 
     /**
+     * get current user
+     * @return type
+     */
+    public static function getCurrentUser() {
+        return \Yii::$app->user->identity;
+    }
+
+    /**
      * is User admin
      * @return boolean
      */
     public static function isUserAdmin() {
-        $user = \Yii::$app->user->identity;
+        $user = self::getCurrentUser();
 
         if (!is_object($user)) {
             return false;
