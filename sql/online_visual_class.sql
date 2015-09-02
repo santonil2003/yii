@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Generation Time: Sep 01, 2015 at 01:55 PM
+-- Generation Time: Sep 02, 2015 at 04:54 PM
 -- Server version: 5.6.25-0ubuntu0.15.04.1
 -- PHP Version: 5.6.4-4ubuntu6.2
 
@@ -43,11 +43,19 @@ CREATE TABLE IF NOT EXISTS `comment` (
 
 CREATE TABLE IF NOT EXISTS `course` (
   `id` int(11) NOT NULL,
+  `code` varchar(255) NOT NULL,
   `name` varchar(255) NOT NULL,
   `description` text,
   `created_at` datetime NOT NULL,
   `modified_at` datetime NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `course`
+--
+
+INSERT INTO `course` (`id`, `code`, `name`, `description`, `created_at`, `modified_at`) VALUES
+(1, 'COIT1234', 'java programming', '', '2015-09-02 06:52:51', '2015-09-02 06:52:51');
 
 -- --------------------------------------------------------
 
@@ -69,14 +77,16 @@ CREATE TABLE IF NOT EXISTS `migration` (
 CREATE TABLE IF NOT EXISTS `role` (
   `id` int(11) NOT NULL,
   `name` varchar(255) NOT NULL
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `role`
 --
 
 INSERT INTO `role` (`id`, `name`) VALUES
-(1, 'Admin');
+(1, 'Admin'),
+(2, 'Lecturer'),
+(3, 'Student');
 
 -- --------------------------------------------------------
 
@@ -104,8 +114,9 @@ CREATE TABLE IF NOT EXISTS `user` (
 --
 
 INSERT INTO `user` (`id`, `first_name`, `last_name`, `username`, `password`, `email`, `active`, `role_id`, `auth_key`, `access_token`, `created_at`, `modified_at`) VALUES
-(3, 'Sanil', 'Shrestha', 'sanil', 'sanil_123', 'sanil.shrestha@cqumail.com', 1, 1, '', NULL, '2015-01-01 00:00:00', '2015-01-01 00:00:00'),
-(4, 'ram', 'shyam', 'ram', 'ram_123', 'ram@yahoo.com', 1, 1, 'RBoi_Hah041v4JAknyM2quPvINgRVW7c', 'AT6x1U7HGQQSj9kosREUcvvovArRi_2V', '2011-03-03 00:00:00', '2015-09-01 03:50:53');
+(3, 'Sanil', 'Shrestha', 'admin', 'admin', 'sanil.shrestha@cqumail.com', 1, 1, '', NULL, '2015-01-01 00:00:00', '2015-01-01 00:00:00'),
+(4, 'ram', 'shyam', 'Lecturer', 'Lecturer', 'ram@yahoo.com', 1, 2, 'RBoi_Hah041v4JAknyM2quPvINgRVW7c', 'AT6x1U7HGQQSj9kosREUcvvovArRi_2V', '2011-03-03 00:00:00', '2015-09-01 03:50:53'),
+(5, 'student', 'student', 'student', 'student', 'student@pcim.com.au', 1, 3, 'mfNGLw0YCwoIarq7M2D9NLJN4e6wJVOC', 'O-koRM03migStcZhsX7-Vsad8GdMf1-W', '2015-09-02 02:59:50', '2015-09-02 03:58:38');
 
 -- --------------------------------------------------------
 
@@ -195,10 +206,15 @@ ALTER TABLE `video`
 ALTER TABLE `comment`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 --
+-- AUTO_INCREMENT for table `course`
+--
+ALTER TABLE `course`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=2;
+--
 -- AUTO_INCREMENT for table `role`
 --
 ALTER TABLE `role`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=2;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=4;
 --
 -- AUTO_INCREMENT for table `user`
 --

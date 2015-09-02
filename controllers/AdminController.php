@@ -2,9 +2,10 @@
 
 namespace app\controllers;
 
-use Yii;
 use yii\filters\AccessControl;
 use yii\filters\VerbFilter;
+use app\models\User;
+use app\models\Debug;
 
 class AdminController extends \yii\web\Controller {
 
@@ -12,24 +13,14 @@ class AdminController extends \yii\web\Controller {
         return [
             'access' => [
                 'class' => AccessControl::className(),
-                'only' => ['logout', 'signup', 'about', 'index'],
+                'except' => ['logout', 'signup', 'about'],
                 'rules' => [
-                    [
-                        'actions' => ['signup'],
-                        'allow' => true,
-                        'roles' => ['?'],
-                    ],
-                    [
-                        'actions' => ['logout'],
-                        'allow' => true,
-                        'roles' => ['@'],
-                    ],
                     [
                         'actions' => ['index'],
                         'allow' => true,
                         'roles' => ['@'],
                         'matchCallback' => function ($rule, $action) {
-                    return User::isUserAdmin(Yii::$app->user->identity->username);
+                    return User::isUserAdmin();
                 }
                     ],
                 ],

@@ -8,8 +8,11 @@ $config = [
     'bootstrap' => ['log'],
     'components' => [
         'request' => [
-            // !!! insert a secret key in the following (if it is empty) - this is required by cookie validation
             'cookieValidationKey' => 'sanil',
+        ],
+        'urlManager' => [
+            'enablePrettyUrl' => true,
+            'showScriptName' => true,
         ],
         'cache' => [
             'class' => 'yii\caching\FileCache',
@@ -18,17 +21,11 @@ $config = [
             'identityClass' => 'app\models\User',
             'enableAutoLogin' => true,
         ],
-        'authManager' => [
-            'class' => 'yii\rbac\PhpManager',
-        ],
         'errorHandler' => [
             'errorAction' => 'site/error',
         ],
         'mailer' => [
             'class' => 'yii\swiftmailer\Mailer',
-            // send all mails to a file by default. You have to set
-            // 'useFileTransport' to false and configure a transport
-            // for the mailer to send real emails.
             'useFileTransport' => true,
         ],
         'log' => [
@@ -39,6 +36,12 @@ $config = [
                     'levels' => ['error', 'warning'],
                 ],
             ],
+        ],
+        'utility' => [
+            'class' => 'app\components\Utility',
+        ],
+        'debug' => [
+            'class' => 'app\components\Debug',
         ],
         'db' => require(__DIR__ . '/db.php'),
     ],

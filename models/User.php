@@ -38,7 +38,7 @@ class User extends \yii\db\ActiveRecord implements \yii\web\IdentityInterface {
      */
     public function rules() {
         return [
-            [['first_name', 'username', 'password', 'email', 'role_id', 'created_at', 'modified_at'], 'required'],
+            [['first_name', 'username', 'password', 'email', 'active', 'role_id'], 'required'],
             [['active', 'role_id'], 'integer'],
             [['created_at', 'modified_at'], 'safe'],
             [['first_name', 'last_name', 'username', 'password', 'email', 'auth_key', 'access_token'], 'string', 'max' => 255]
@@ -57,7 +57,7 @@ class User extends \yii\db\ActiveRecord implements \yii\web\IdentityInterface {
             'password' => 'Password',
             'email' => 'Email',
             'active' => 'Active',
-            'role_id' => 'Role ID',
+            'role_id' => 'Role',
             'auth_key' => 'Auth Key',
             'access_token' => 'Access Token',
             'created_at' => 'Created At',
@@ -143,8 +143,29 @@ class User extends \yii\db\ActiveRecord implements \yii\web\IdentityInterface {
         return static::findOne(['username' => $username]);
     }
 
+    /**
+     * is User admin
+     * @return boolean
+     */
     public static function isUserAdmin() {
-        return true;
+        $user = \Yii::$app->user->identity;
+
+        if (!is_object($user)) {
+            return false;
+        }
+
+        return ($user->role_id == '1') ? true : false;
+    }
+
+    public static function getActiveLabel($active) {
+        switch ($active) {
+            case '0':
+                return 'Inactive';
+            case '1':
+                return 'Active';
+            default:
+                return 'Unknown';
+        }
     }
 
     /**

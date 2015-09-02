@@ -8,6 +8,7 @@ use Yii;
  * This is the model class for table "course".
  *
  * @property integer $id
+ * @property string $code
  * @property string $name
  * @property string $description
  * @property string $created_at
@@ -17,37 +18,34 @@ use Yii;
  * @property User[] $users
  * @property Video[] $videos
  */
-class Course extends \yii\db\ActiveRecord
-{
+class Course extends \yii\db\ActiveRecord {
+
     /**
      * @inheritdoc
      */
-    public static function tableName()
-    {
+    public static function tableName() {
         return 'course';
     }
 
     /**
      * @inheritdoc
      */
-    public function rules()
-    {
+    public function rules() {
         return [
-            [['id', 'name', 'created_at', 'modified_at'], 'required'],
-            [['id'], 'integer'],
+            [['code', 'name'], 'required'],
             [['description'], 'string'],
             [['created_at', 'modified_at'], 'safe'],
-            [['name'], 'string', 'max' => 255]
+            [['code', 'name'], 'string', 'max' => 255]
         ];
     }
 
     /**
      * @inheritdoc
      */
-    public function attributeLabels()
-    {
+    public function attributeLabels() {
         return [
             'id' => 'ID',
+            'code' => 'Code',
             'name' => 'Name',
             'description' => 'Description',
             'created_at' => 'Created At',
@@ -58,24 +56,38 @@ class Course extends \yii\db\ActiveRecord
     /**
      * @return \yii\db\ActiveQuery
      */
-    public function getUserHasCourses()
-    {
+    public function getUserHasCourses() {
         return $this->hasMany(UserHasCourse::className(), ['course_id' => 'id']);
     }
 
     /**
      * @return \yii\db\ActiveQuery
      */
-    public function getUsers()
-    {
+    public function getUsers() {
         return $this->hasMany(User::className(), ['id' => 'user_id'])->viaTable('user_has_course', ['course_id' => 'id']);
     }
 
     /**
      * @return \yii\db\ActiveQuery
      */
-    public function getVideos()
-    {
+    public function getVideos() {
         return $this->hasMany(Video::className(), ['course_id' => 'id']);
     }
+
+    /**
+     * before save
+     * @param type $insert
+     * @return boolean
+     */
+    public function beforeSave($insert) {
+        if (parent::beforeSave($insert)) {
+            $this->modified_at = date('Y-m-d H:i:s');
+            if ($this->isNewRecord) {
+                $this->created_at = date('Y-m-d H:i:s');
+            }
+            return true;
+        }
+        return false;
+    }
+
 }

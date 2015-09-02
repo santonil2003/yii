@@ -1,13 +1,16 @@
 <?php
 
-namespace app\models;
+namespace app\components;
+
+use Yii;
+use yii\base\Component;
 
 /**
  * Debug 
- * @package core
+ * @package components
  * @author Sanil Shrestha <web.developer.sanil@gmail.com>
  */
-class Debug {
+class Debug extends Component {
 
     /**
      * extended print_r with line trace
