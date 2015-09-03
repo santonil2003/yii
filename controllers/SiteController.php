@@ -61,7 +61,7 @@ class SiteController extends Controller {
         Yii::$app->getSession()->setFlash('success', 'Welcome back, ' . $User->first_name);
         switch ($User->role_id) {
             case 1: // admin
-                return $this->redirect(\Yii::$app->urlManager->createUrl("admin/index"));
+                return $this->redirect(\Yii::$app->urlManager->createUrl("user/index"));
             case 2: // lecturer
                 return $this->redirect(\Yii::$app->urlManager->createUrl("site/dashboard"));
             case 3: // student
@@ -73,7 +73,6 @@ class SiteController extends Controller {
     }
 
     public function actionDashboard() {
-        $this->layout = 'leftCol';
         return $this->render('index');
     }
 

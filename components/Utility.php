@@ -36,4 +36,20 @@ class Utility extends Component {
         return $navs;
     }
 
+    public function getAdminNavItems() {
+        $navs = array();
+
+        if (Yii::$app->user->isGuest) {
+            return $navs;
+        }
+
+        $navs[] = ['label' => 'Users', 'url' => ['/user/index']];
+        $navs[] = ['label' => 'Courses', 'url' => ['/course/index']];
+        $navs[] = ['label' => 'Assign Course', 'url' => ['/user-has-course/index']];
+        $navs[] = ['label' => 'Videos', 'url' => ['/video/index']];
+        $navs[] = ['label' => 'Comments', 'url' => ['/comment/index']];
+
+        return $navs;
+    }
+
 }

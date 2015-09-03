@@ -23,7 +23,9 @@ class UserController extends Controller {
                     [
                         'allow' => true,
                         'roles' => ['@'],
-                        'matchCallback' => function ($rule, $action) { return User::isUserAdmin();}
+                        'matchCallback' => function ($rule, $action) {
+                    return User::isUserAdmin();
+                }
                     ]
                 ],
             ],
@@ -43,6 +45,9 @@ class UserController extends Controller {
     public function actionIndex() {
         $dataProvider = new ActiveDataProvider([
             'query' => User::find(),
+            'pagination' => [
+                'pageSize' => 10,
+            ],
         ]);
 
         return $this->render('index', [

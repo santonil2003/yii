@@ -10,13 +10,12 @@ use app\models\Comment;
 /**
  * CommentSearch represents the model behind the search form about `app\models\Comment`.
  */
-class CommentSearch extends Comment
-{
+class CommentSearch extends Comment {
+
     /**
      * @inheritdoc
      */
-    public function rules()
-    {
+    public function rules() {
         return [
             [['id', 'video_id', 'user_id'], 'integer'],
             [['text', 'created_at', 'modified_at'], 'safe'],
@@ -26,8 +25,7 @@ class CommentSearch extends Comment
     /**
      * @inheritdoc
      */
-    public function scenarios()
-    {
+    public function scenarios() {
         // bypass scenarios() implementation in the parent class
         return Model::scenarios();
     }
@@ -39,12 +37,14 @@ class CommentSearch extends Comment
      *
      * @return ActiveDataProvider
      */
-    public function search($params)
-    {
+    public function search($params) {
         $query = Comment::find();
 
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
+            'pagination' => [
+                'pageSize' => 2,
+            ],
         ]);
 
         $this->load($params);
@@ -67,4 +67,5 @@ class CommentSearch extends Comment
 
         return $dataProvider;
     }
+
 }
