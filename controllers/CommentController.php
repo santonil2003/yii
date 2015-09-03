@@ -4,7 +4,7 @@ namespace app\controllers;
 
 use Yii;
 use app\models\Comment;
-use yii\data\ActiveDataProvider;
+use app\models\CommentSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
@@ -32,11 +32,11 @@ class CommentController extends Controller
      */
     public function actionIndex()
     {
-        $dataProvider = new ActiveDataProvider([
-            'query' => Comment::find(),
-        ]);
+        $searchModel = new CommentSearch();
+        $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 
         return $this->render('index', [
+            'searchModel' => $searchModel,
             'dataProvider' => $dataProvider,
         ]);
     }

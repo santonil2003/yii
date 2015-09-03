@@ -8,15 +8,25 @@ use yii\data\ActiveDataProvider;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
+use yii\filters\AccessControl;
 
 /**
  * UserController implements the CRUD actions for User model.
  */
-class UserController extends Controller
-{
-    public function behaviors()
-    {
+class UserController extends Controller {
+
+    public function behaviors() {
         return [
+            'access' => [
+                'class' => AccessControl::className(),
+                'rules' => [
+                    [
+                        'allow' => true,
+                        'roles' => ['@'],
+                        'matchCallback' => function ($rule, $action) { return User::isUserAdmin();}
+                    ]
+                ],
+            ],
             'verbs' => [
                 'class' => VerbFilter::className(),
                 'actions' => [
@@ -30,14 +40,13 @@ class UserController extends Controller
      * Lists all User models.
      * @return mixed
      */
-    public function actionIndex()
-    {
+    public function actionIndex() {
         $dataProvider = new ActiveDataProvider([
             'query' => User::find(),
         ]);
 
         return $this->render('index', [
-            'dataProvider' => $dataProvider,
+                    'dataProvider' => $dataProvider,
         ]);
     }
 
@@ -47,10 +56,9 @@ class UserController extends Controller
      * @param integer $role_id
      * @return mixed
      */
-    public function actionView($id, $role_id)
-    {
+    public function actionView($id, $role_id) {
         return $this->render('view', [
-            'model' => $this->findModel($id, $role_id),
+                    'model' => $this->findModel($id, $role_id),
         ]);
     }
 
@@ -59,15 +67,14 @@ class UserController extends Controller
      * If creation is successful, the browser will be redirected to the 'view' page.
      * @return mixed
      */
-    public function actionCreate()
-    {
+    public function actionCreate() {
         $model = new User();
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
             return $this->redirect(['view', 'id' => $model->id, 'role_id' => $model->role_id]);
         } else {
             return $this->render('create', [
-                'model' => $model,
+                        'model' => $model,
             ]);
         }
     }
@@ -79,15 +86,14 @@ class UserController extends Controller
      * @param integer $role_id
      * @return mixed
      */
-    public function actionUpdate($id, $role_id)
-    {
+    public function actionUpdate($id, $role_id) {
         $model = $this->findModel($id, $role_id);
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
             return $this->redirect(['view', 'id' => $model->id, 'role_id' => $model->role_id]);
         } else {
             return $this->render('update', [
-                'model' => $model,
+                        'model' => $model,
             ]);
         }
     }
@@ -99,8 +105,7 @@ class UserController extends Controller
      * @param integer $role_id
      * @return mixed
      */
-    public function actionDelete($id, $role_id)
-    {
+    public function actionDelete($id, $role_id) {
         $this->findModel($id, $role_id)->delete();
 
         return $this->redirect(['index']);
@@ -114,12 +119,12 @@ class UserController extends Controller
      * @return User the loaded model
      * @throws NotFoundHttpException if the model cannot be found
      */
-    protected function findModel($id, $role_id)
-    {
+    protected function findModel($id, $role_id) {
         if (($model = User::findOne(['id' => $id, 'role_id' => $role_id])) !== null) {
             return $model;
         } else {
             throw new NotFoundHttpException('The requested page does not exist.');
         }
     }
+
 }

@@ -45,21 +45,51 @@ class SiteController extends Controller {
         ];
     }
 
+    /**
+     * load appropriate dashboard
+     * @return type
+     */
+    private function goDashboard() {
+
+        if (Yii::$app->user->isGuest) {
+            return $this->redirect(\Yii::$app->urlManager->createUrl("site/login"));
+        }
+
+        $User = Yii::$app->user->identity;
+
+
+        Yii::$app->getSession()->setFlash('success', 'Welcome back, ' . $User->first_name);
+        switch ($User->role_id) {
+            case 1: // admin
+                return $this->redirect(\Yii::$app->urlManager->createUrl("admin/index"));
+            case 2: // lecturer
+                return $this->redirect(\Yii::$app->urlManager->createUrl("site/dashboard"));
+            case 3: // student
+                return $this->redirect(\Yii::$app->urlManager->createUrl("site/dashboard"));
+            default:
+                $this->goHome();
+                break;
+        }
+    }
+
+    public function actionDashboard() {
+        $this->layout = 'leftCol';
+        return $this->render('index');
+    }
+
     public function actionIndex() {
         return $this->render('index');
     }
 
     public function actionLogin() {
         if (!\Yii::$app->user->isGuest) {
-            return $this->goHome();
+            return $this->goDashboard();
         }
 
         $model = new LoginForm();
 
-
         if ($model->load(Yii::$app->request->post()) && $model->login()) {
-            // return $this->goBack();
-            return $this->redirect(\Yii::$app->urlManager->createUrl("admin/index"));
+            return $this->goDashboard();
         } else {
             return $this->render('login', [
                         'model' => $model,

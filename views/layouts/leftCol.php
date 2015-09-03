@@ -24,13 +24,13 @@ AppAsset::register($this);
     <body>
 
         <?php $this->beginBody() ?>
-        <div class="wrap">
+        <div class="main-wrap">
             <?php
             NavBar::begin([
                 'brandLabel' => 'My Company',
                 'brandUrl' => Yii::$app->homeUrl,
                 'options' => [
-                    'class' => 'navbar-inverse navbar navbar-fixed-top',
+                    'class' => 'navbar navbar-default',
                 ],
             ]);
 
@@ -41,17 +41,29 @@ AppAsset::register($this);
             NavBar::end();
             ?>
             <div class="container">
-                <?php
-                foreach (Yii::$app->session->getAllFlashes() as $key => $message) {
-                    echo '<div class="alert alert-' . $key . '">' . $message . '</div>';
-                }
-                ?>
-                <?=
-                Breadcrumbs::widget([
-                    'links' => isset($this->params['breadcrumbs']) ? $this->params['breadcrumbs'] : [],
-                ])
-                ?>
-                <?= $content ?>
+                <div class="row">
+                    <?php
+                    foreach (Yii::$app->session->getAllFlashes() as $key => $message) {
+                        echo '<div class="alert alert-' . $key . '">' . $message . '</div>';
+                    }
+                    ?>
+                    <?=
+                    Breadcrumbs::widget([
+                        'links' => isset($this->params['breadcrumbs']) ? $this->params['breadcrumbs'] : [],
+                    ])
+                    ?>
+                </div>
+
+                <div class="row">
+                    <div class="col-lg-2">
+                        <ul class="nav nav-pills nav-stacked">
+                            <li role="presentation" class="active"><a href="#">Home</a></li>
+                            <li role="presentation"><a href="#">Profile</a></li>
+                            <li role="presentation"><a href="#">Messages</a></li>
+                        </ul>
+                    </div>
+                    <div class="col-lg-10"><?= $content ?></div>
+                </div>
             </div>
         </div>
 

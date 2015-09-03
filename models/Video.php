@@ -78,13 +78,12 @@ class Video extends \yii\db\ActiveRecord {
     public function getCourse() {
         return $this->hasOne(Course::className(), ['id' => 'course_id']);
     }
-
+    
+    /**
+     * upload video
+     * @return boolean|string
+     */
     public function upload() {
-        return FALSE;
-        if (!$_FILES['Video']['tmp_name']) {
-            return false;
-        }
-
         if ($this->validate()) {
             $path = 'uploads/' . $this->imageFile->baseName . '.' . $this->imageFile->extension;
             $this->imageFile->saveAs($path);

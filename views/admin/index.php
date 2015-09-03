@@ -1,5 +1,7 @@
 <?php
 /* @var $this yii\web\View */
+
+Yii::$app->debug->r(Yii::$app->user->identity);
 ?>
 <h1>admin/index</h1>
 
