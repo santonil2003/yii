@@ -38,11 +38,11 @@ $config = [
                 ],
             ],
         ],
-        'utility' => [
-            'class' => 'app\components\Utility',
+        'ovcUtility' => [
+            'class' => 'app\components\OvcUtility',
         ],
-        'debug' => [
-            'class' => 'app\components\Debug',
+        'ovcDebug' => [
+            'class' => 'app\components\OvcDebug',
         ],
         'db' => require(__DIR__ . '/db.php'),
     ],

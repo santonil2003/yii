@@ -10,7 +10,7 @@ use yii\base\Component;
  * @package components
  * @author Sanil Shrestha <web.developer.sanil@gmail.com>
  */
-class Debug extends Component {
+class OvcDebug extends Component {
 
     /**
      * extended print_r with line trace

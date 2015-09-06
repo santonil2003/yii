@@ -2,6 +2,8 @@
 
 use yii\helpers\Html;
 use yii\widgets\ActiveForm;
+use app\models\User;
+use app\models\Course;
 
 /* @var $this yii\web\View */
 /* @var $model app\models\UserHasCourse */
@@ -12,10 +14,18 @@ use yii\widgets\ActiveForm;
 
     <?php $form = ActiveForm::begin(); ?>
 
-    <?= $form->field($model, 'user_id')->textInput() ?>
+    <?=
+    $form->field($model, 'user_id')->dropdownList(
+            User::find()->select(['CONCAT(first_name," ",last_name, " ( ", username," )") as name', 'id'])->indexBy('id')->column(), ['prompt' => 'Select User']
+    );
+    ?>
 
-    <?= $form->field($model, 'course_id')->textInput() ?>
-
+    <?=
+    $form->field($model, 'course_id')->dropdownList(
+            Course::find()->select(['CONCAT(code," ( ", name," )") as name', 'id'])->indexBy('id')->column(), ['prompt' => 'Select Course']
+    );
+    ?>
+    
     <div class="form-group">
         <?= Html::submitButton($model->isNewRecord ? 'Create' : 'Update', ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>
     </div>

@@ -39,7 +39,7 @@ AppAsset::register($this);
                     <?php
                     echo Nav::widget([
                         'options' => ['class' => 'navbar-nav navbar-right'],
-                        'items' => yii::$app->utility->getMainNavItems(),
+                        'items' => yii::$app->ovcUtility->getMainNavItems(),
                     ]);
                     ?>
                 </div>
@@ -52,7 +52,7 @@ AppAsset::register($this);
                     <?php
                     echo Nav::widget([
                         'options' => ['class' => 'nav nav-sidebar'],
-                        'items' => yii::$app->utility->getAdminNavItems(),
+                        'items' => yii::$app->ovcUtility->getAdminNavItems(),
                     ]);
                     ?>
                 </div>

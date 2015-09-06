@@ -151,6 +151,16 @@ class User extends \yii\db\ActiveRecord implements \yii\web\IdentityInterface {
         return \Yii::$app->user->identity;
     }
 
+    public static function getCurrentUserRole() {
+        $user = self::getCurrentUser();
+
+        if (!is_object($user)) {
+            return false;
+        }
+
+        return $user->role_id;
+    }
+
     /**
      * is User admin
      * @return boolean
@@ -164,6 +174,7 @@ class User extends \yii\db\ActiveRecord implements \yii\web\IdentityInterface {
 
         return ($user->role_id == '1') ? true : false;
     }
+    
 
     public static function getActiveLabel($active) {
         switch ($active) {

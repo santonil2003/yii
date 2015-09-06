@@ -9,6 +9,9 @@ use yii\data\ActiveDataProvider;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
+use yii\filters\AccessControl;
+use app\models\User;
+use app\components\OvcRole;
 
 /**
  * VideoController implements the CRUD actions for Video model.
@@ -17,6 +20,36 @@ class VideoController extends Controller {
 
     public function behaviors() {
         return [
+            'access' => [
+                'class' => AccessControl::className(),
+                'except' => ['view', 'index'],
+                'rules' => [
+                    [
+                        'allow' => true,
+                        'roles' => ['@'],
+                        'matchCallback' => function ($rule, $action) {
+                    return User::isUserAdmin();
+                }
+                    ],
+                ],
+                'rules' => [
+                    [
+                        'actions' => ['latest-videos'],
+                        'allow' => true,
+                        'roles' => ['@']
+                    ],
+                ],
+                'rules' => [
+                    [
+                        'actions' => ['create', 'update', 'delete'],
+                        'allow' => true,
+                        'roles' => ['@'],
+                        'matchCallback' => function ($rule, $action) {
+                    return (User::getCurrentUserRole() == OvcRole::LECTURER);
+                }
+                    ],
+                ],
+            ],
             'verbs' => [
                 'class' => VerbFilter::className(),
                 'actions' => [
@@ -133,6 +166,14 @@ class VideoController extends Controller {
         } else {
             throw new NotFoundHttpException('The requested page does not exist.');
         }
+    }
+
+    /**
+     * latestVideos
+     * @return type
+     */
+    public function actionLatestVideos() {
+        return $this->render('latest_videos');
     }
 
 }

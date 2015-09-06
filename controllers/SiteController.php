@@ -8,6 +8,11 @@ use yii\web\Controller;
 use yii\filters\VerbFilter;
 use app\models\LoginForm;
 use app\models\ContactForm;
+use app\components\OvcRole;
+use app\components\OvcUser;
+use app\components\OvcCourse;
+use app\components\OvcVideo;
+use app\components\OvcDebug;
 
 class SiteController extends Controller {
 
@@ -57,22 +62,21 @@ class SiteController extends Controller {
 
         $User = Yii::$app->user->identity;
 
-
         Yii::$app->getSession()->setFlash('success', 'Welcome back, ' . $User->first_name);
         switch ($User->role_id) {
-            case 1: // admin
+            case OvcRole::ADMIN;
                 return $this->redirect(\Yii::$app->urlManager->createUrl("user/index"));
-            case 2: // lecturer
-                return $this->redirect(\Yii::$app->urlManager->createUrl("site/dashboard"));
-            case 3: // student
-                return $this->redirect(\Yii::$app->urlManager->createUrl("site/dashboard"));
+            case OvcRole::LECTURER;
+                return $this->redirect(\Yii::$app->urlManager->createUrl("site/lecturer"));
+            case OvcRole::STUDENT;
+                return $this->redirect(\Yii::$app->urlManager->createUrl("video/latest-videos"));
             default:
                 $this->goHome();
                 break;
         }
     }
 
-    public function actionDashboard() {
+    public function actionLecturer() {
         return $this->render('index');
     }
 

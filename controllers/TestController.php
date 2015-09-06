@@ -15,19 +15,21 @@ class TestController extends \yii\web\Controller {
 
 // whether the current user is a guest (not authenticated)
         $isGuest = Yii::$app->user->isGuest;
-        
-        
+
+
         // find a user identity with the specified username.
 // note that you may want to check the password if needed
-$identity = User::findOne(['username' => $username]);
+        $identity = User::findOne(['username' => $username]);
 
 // logs in the user 
-Yii::$app->user->login($identity);
+        Yii::$app->user->login($identity);
 // logs user out
-Yii::$app->user->logout();
+        Yii::$app->user->logout();
 
 
         return $this->render('index');
+
+        //return Yii::$app->runAction('video/latest', array());
     }
 
 }
