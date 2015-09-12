@@ -192,3 +192,12 @@ a.desc:after {
     display: inline-block;
     border-radius: 50%;
 }
+
+/********** OVC custom css*********/
+.nav-sidebar .glyphicon::before{
+    padding-right: 8px;
+}
+
+.nav-sidebar .ovc-nav-logout{
+    margin-top: 10px;
+}

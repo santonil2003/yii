@@ -32,7 +32,7 @@ AppAsset::register($this);
                         <span class="icon-bar"></span>
                         <span class="icon-bar"></span>
                     </button>
-                    <a class="navbar-brand" href="#">Online Visual Class</a>
+                    <img src="<?= Yii::getAlias('@web'); ?>/images/video5.png" alt="ovc" style="float: left; max-height: 48px;"/><a class="navbar-brand" href="#"> <em>Online Visual Class</em></a>
                 </div>
 
                 <div id="navbar" class="navbar-collapse collapse">

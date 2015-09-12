@@ -45,20 +45,24 @@ class OvcUtility extends Component {
 
         switch ($User->role_id) {
             case OvcRole::ADMIN;
-                $navs[] = ['label' => 'Users', 'url' => ['/user/index']];
-                $navs[] = ['label' => 'Courses', 'url' => ['/course/index']];
-                $navs[] = ['label' => 'Assign Course', 'url' => ['/user-has-course/index']];
-                $navs[] = ['label' => 'Videos', 'url' => ['/video/index']];
+                $navs[] = ['label' => 'Users', 'url' => ['/user/index'], 'linkOptions' => ['class' => 'glyphicon glyphicon-user']];
+                $navs[] = ['label' => 'Courses', 'url' => ['/course/index'], 'linkOptions' => ['class' => 'glyphicon glyphicon-book']];
+                $navs[] = ['label' => 'Assign Course', 'url' => ['/user-has-course/index'], 'linkOptions' => ['class' => 'glyphicon glyphicon-link']];
+                $navs[] = ['label' => 'Videos', 'url' => ['/video/index'], 'linkOptions' => ['class' => 'glyphicon glyphicon-film']];
+                $navs[] = ['label' => 'Comments', 'url' => ['/comment/index'], 'linkOptions' => ['class' => 'glyphicon glyphicon-comment']];
+                $navs[] = ['label' => 'Logout', 'url' => ['/site/logout'], 'linkOptions' => ['class' => 'ovc-nav-logout glyphicon glyphicon-off', 'data-method' => 'post']];
                 break;
             case OvcRole::LECTURER;
-                $navs[] = ['label' => 'Students', 'url' => ['/user/index']];
-                $navs[] = ['label' => 'My Courses', 'url' => ['/course/my-courses']];
-                $navs[] = ['label' => 'All Videos', 'url' => ['/video/index']];
+                $navs[] = ['label' => 'Students', 'url' => ['/user/index'], 'linkOptions' => ['class' => 'glyphicon glyphicon-user']];
+                $navs[] = ['label' => 'My Courses', 'url' => ['/course/my-courses'], 'linkOptions' => ['class' => 'glyphicon glyphicon-book']];
+                $navs[] = ['label' => 'All Videos', 'url' => ['/video/index'], 'linkOptions' => ['class' => 'glyphicon glyphicon-film']];
+                $navs[] = ['label' => 'Logout', 'url' => ['/site/logout'], 'linkOptions' => ['class' => 'ovc-nav-logout glyphicon glyphicon-off', 'data-method' => 'post']];
                 break;
             case OvcRole::STUDENT;
-                $navs[] = ['label' => 'Latest Videos', 'url' => ['video/latest-videos']];
-                $navs[] = ['label' => 'My Courses', 'url' => ['/course/my-courses']];
-                $navs[] = ['label' => 'Videos', 'url' => ['/video/index']];
+                $navs[] = ['label' => 'Latest Videos', 'url' => ['video/latest-videos'], 'linkOptions' => ['class' => 'glyphicon glyphicon-facetime-video']];
+                $navs[] = ['label' => 'My Courses', 'url' => ['/course/my-courses'], 'linkOptions' => ['class' => 'glyphicon glyphicon-book']];
+                $navs[] = ['label' => 'Videos', 'url' => ['/video/index'], 'linkOptions' => ['class' => 'glyphicon glyphicon-film']];
+                $navs[] = ['label' => 'Logout', 'url' => ['/site/logout'], 'linkOptions' => ['class' => 'ovc-nav-logout glyphicon glyphicon-off', 'data-method' => 'post']];
                 break;
             default:
                 break;
