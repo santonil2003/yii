@@ -4,6 +4,10 @@
 <h1>test/index</h1>
 
 <p>
+
+    <?php
+    \app\components\OvcDebug::r($msg);
+    ?>
     You may change the content of this page by modifying
     the file <code><?= __FILE__; ?></code>.
 </p>

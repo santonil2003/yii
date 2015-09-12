@@ -20,7 +20,7 @@ class OvcLatestVideoWidget extends Widget {
         parent::init();
         if ($this->latestVideos === null) {
             $User = OvcUser::getCurrentUser();
-            $courseIds = OvcCourse::getUserCourses($User->id);
+            $courseIds = OvcCourse::getUserCourseIds($User->id);
             $this->latestVideos = OvcVideo::getLatestVideosByCourseIds($courseIds);
         }
     }

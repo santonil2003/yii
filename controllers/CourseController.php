@@ -8,9 +8,8 @@ use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 use yii\filters\AccessControl;
-use app\models\User;
 use app\models\Course;
-use app\components\OvcRole;
+use app\components\OvcUser;
 
 /**
  * CourseController implements the CRUD actions for Course model.
@@ -24,21 +23,25 @@ class CourseController extends Controller {
                 'except' => ['view', 'index'],
                 'rules' => [
                     [
+                        'actions' => ['create', 'delete', 'update'],
                         'allow' => true,
                         'roles' => ['@'],
                         'matchCallback' => function ($rule, $action) {
-                    return User::isUserAdmin();
+                    return OvcUser::isUserAdmin();
                 }
                     ],
-                ],
-                'rules' => [
                     [
                         'actions' => ['update'],
                         'allow' => true,
                         'roles' => ['@'],
                         'matchCallback' => function ($rule, $action) {
-                    return (User::getCurrentUserRole() == OvcRole::LECTURER) || (User::getCurrentUserRole() == OvcRole::ADMIN);
+                    return OvcUser::isUserLecturer();
                 }
+                    ],
+                    [
+                        'actions' => ['my-courses'],
+                        'allow' => true,
+                        'roles' => ['@']
                     ],
                 ],
             ],
@@ -136,6 +139,16 @@ class CourseController extends Controller {
         } else {
             throw new NotFoundHttpException('The requested page does not exist.');
         }
+    }
+
+    /**
+     * my courses
+     * @param type $userid
+     * @return type
+     */
+    public function actionMyCourses() {
+        $myCourses = \app\components\OvcCourse::getUserCourses();
+        return $this->render('my_courses', ['myCourses' => $myCourses]);
     }
 
 }

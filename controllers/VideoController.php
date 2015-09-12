@@ -10,8 +10,7 @@ use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 use yii\filters\AccessControl;
-use app\models\User;
-use app\components\OvcRole;
+use app\components\OvcUser;
 
 /**
  * VideoController implements the CRUD actions for Video model.
@@ -22,31 +21,19 @@ class VideoController extends Controller {
         return [
             'access' => [
                 'class' => AccessControl::className(),
-                'except' => ['view', 'index'],
-                'rules' => [
-                    [
-                        'allow' => true,
-                        'roles' => ['@'],
-                        'matchCallback' => function ($rule, $action) {
-                    return User::isUserAdmin();
-                }
-                    ],
-                ],
-                'rules' => [
-                    [
-                        'actions' => ['latest-videos'],
-                        'allow' => true,
-                        'roles' => ['@']
-                    ],
-                ],
                 'rules' => [
                     [
                         'actions' => ['create', 'update', 'delete'],
                         'allow' => true,
                         'roles' => ['@'],
                         'matchCallback' => function ($rule, $action) {
-                    return (User::getCurrentUserRole() == OvcRole::LECTURER);
-                }
+                                return OvcUser::isUserAdmin() || OvcUser::isUserLecturer();
+                        }
+                    ],
+                    [
+                        'actions' => ['view', 'index', 'latest-videos'],
+                        'allow' => true,
+                        'roles' => ['@'],
                     ],
                 ],
             ],

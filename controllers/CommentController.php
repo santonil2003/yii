@@ -8,15 +8,24 @@ use app\models\CommentSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
+use yii\filters\AccessControl;
 
 /**
  * CommentController implements the CRUD actions for Comment model.
  */
-class CommentController extends Controller
-{
-    public function behaviors()
-    {
+class CommentController extends Controller {
+
+    public function behaviors() {
         return [
+            'access' => [
+                'class' => AccessControl::className(),
+                'rules' => [
+                    [
+                        'allow' => true,
+                        'roles' => ['@'],
+                    ]
+                ],
+            ],
             'verbs' => [
                 'class' => VerbFilter::className(),
                 'actions' => [
@@ -30,14 +39,13 @@ class CommentController extends Controller
      * Lists all Comment models.
      * @return mixed
      */
-    public function actionIndex()
-    {
+    public function actionIndex() {
         $searchModel = new CommentSearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 
         return $this->render('index', [
-            'searchModel' => $searchModel,
-            'dataProvider' => $dataProvider,
+                    'searchModel' => $searchModel,
+                    'dataProvider' => $dataProvider,
         ]);
     }
 
@@ -47,10 +55,9 @@ class CommentController extends Controller
      * @param integer $video_id
      * @return mixed
      */
-    public function actionView($id, $video_id)
-    {
+    public function actionView($id, $video_id) {
         return $this->render('view', [
-            'model' => $this->findModel($id, $video_id),
+                    'model' => $this->findModel($id, $video_id),
         ]);
     }
 
@@ -59,15 +66,14 @@ class CommentController extends Controller
      * If creation is successful, the browser will be redirected to the 'view' page.
      * @return mixed
      */
-    public function actionCreate()
-    {
+    public function actionCreate() {
         $model = new Comment();
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
             return $this->redirect(['view', 'id' => $model->id, 'video_id' => $model->video_id]);
         } else {
             return $this->render('create', [
-                'model' => $model,
+                        'model' => $model,
             ]);
         }
     }
@@ -79,15 +85,14 @@ class CommentController extends Controller
      * @param integer $video_id
      * @return mixed
      */
-    public function actionUpdate($id, $video_id)
-    {
+    public function actionUpdate($id, $video_id) {
         $model = $this->findModel($id, $video_id);
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
             return $this->redirect(['view', 'id' => $model->id, 'video_id' => $model->video_id]);
         } else {
             return $this->render('update', [
-                'model' => $model,
+                        'model' => $model,
             ]);
         }
     }
@@ -99,8 +104,7 @@ class CommentController extends Controller
      * @param integer $video_id
      * @return mixed
      */
-    public function actionDelete($id, $video_id)
-    {
+    public function actionDelete($id, $video_id) {
         $this->findModel($id, $video_id)->delete();
 
         return $this->redirect(['index']);
@@ -114,12 +118,12 @@ class CommentController extends Controller
      * @return Comment the loaded model
      * @throws NotFoundHttpException if the model cannot be found
      */
-    protected function findModel($id, $video_id)
-    {
+    protected function findModel($id, $video_id) {
         if (($model = Comment::findOne(['id' => $id, 'video_id' => $video_id])) !== null) {
             return $model;
         } else {
             throw new NotFoundHttpException('The requested page does not exist.');
         }
     }
+
 }

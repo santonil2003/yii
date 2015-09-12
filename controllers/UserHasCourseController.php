@@ -4,19 +4,32 @@ namespace app\controllers;
 
 use Yii;
 use app\models\UserHasCourse;
+use app\components\OvcUser;
 use yii\data\ActiveDataProvider;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
+use yii\filters\AccessControl;
 use yii\filters\VerbFilter;
 
 /**
  * UserHasCourseController implements the CRUD actions for UserHasCourse model.
  */
-class UserHasCourseController extends Controller
-{
-    public function behaviors()
-    {
+class UserHasCourseController extends Controller {
+
+    public function behaviors() {
         return [
+            'access' => [
+                'class' => AccessControl::className(),
+                'rules' => [
+                    [
+                        'allow' => true,
+                        'roles' => ['@'],
+                        'matchCallback' => function ($rule, $action) {
+                    return OvcUser::isUserAdmin();
+                }
+                    ]
+                ],
+            ],
             'verbs' => [
                 'class' => VerbFilter::className(),
                 'actions' => [
@@ -30,14 +43,13 @@ class UserHasCourseController extends Controller
      * Lists all UserHasCourse models.
      * @return mixed
      */
-    public function actionIndex()
-    {
+    public function actionIndex() {
         $dataProvider = new ActiveDataProvider([
             'query' => UserHasCourse::find(),
         ]);
 
         return $this->render('index', [
-            'dataProvider' => $dataProvider,
+                    'dataProvider' => $dataProvider,
         ]);
     }
 
@@ -47,10 +59,9 @@ class UserHasCourseController extends Controller
      * @param integer $course_id
      * @return mixed
      */
-    public function actionView($user_id, $course_id)
-    {
+    public function actionView($user_id, $course_id) {
         return $this->render('view', [
-            'model' => $this->findModel($user_id, $course_id),
+                    'model' => $this->findModel($user_id, $course_id),
         ]);
     }
 
@@ -59,15 +70,14 @@ class UserHasCourseController extends Controller
      * If creation is successful, the browser will be redirected to the 'view' page.
      * @return mixed
      */
-    public function actionCreate()
-    {
+    public function actionCreate() {
         $model = new UserHasCourse();
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
             return $this->redirect(['view', 'user_id' => $model->user_id, 'course_id' => $model->course_id]);
         } else {
             return $this->render('create', [
-                'model' => $model,
+                        'model' => $model,
             ]);
         }
     }
@@ -79,15 +89,14 @@ class UserHasCourseController extends Controller
      * @param integer $course_id
      * @return mixed
      */
-    public function actionUpdate($user_id, $course_id)
-    {
+    public function actionUpdate($user_id, $course_id) {
         $model = $this->findModel($user_id, $course_id);
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
             return $this->redirect(['view', 'user_id' => $model->user_id, 'course_id' => $model->course_id]);
         } else {
             return $this->render('update', [
-                'model' => $model,
+                        'model' => $model,
             ]);
         }
     }
@@ -99,8 +108,7 @@ class UserHasCourseController extends Controller
      * @param integer $course_id
      * @return mixed
      */
-    public function actionDelete($user_id, $course_id)
-    {
+    public function actionDelete($user_id, $course_id) {
         $this->findModel($user_id, $course_id)->delete();
 
         return $this->redirect(['index']);
@@ -114,12 +122,16 @@ class UserHasCourseController extends Controller
      * @return UserHasCourse the loaded model
      * @throws NotFoundHttpException if the model cannot be found
      */
-    protected function findModel($user_id, $course_id)
-    {
+    protected function findModel($user_id, $course_id) {
         if (($model = UserHasCourse::findOne(['user_id' => $user_id, 'course_id' => $course_id])) !== null) {
             return $model;
         } else {
             throw new NotFoundHttpException('The requested page does not exist.');
         }
     }
+
+    public function actionGetUnassignedCourse($user_id) {
+        
+    }
+
 }

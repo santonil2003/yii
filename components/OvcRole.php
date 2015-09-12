@@ -11,10 +11,9 @@ use yii\base\Component;
  * @author sanil
  */
 class OvcRole extends Component {
-    
+
     CONST ADMIN = 1;
     CONST LECTURER = 2;
     CONST STUDENT = 3;
-    
 
 }

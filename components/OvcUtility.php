@@ -52,12 +52,12 @@ class OvcUtility extends Component {
                 break;
             case OvcRole::LECTURER;
                 $navs[] = ['label' => 'Students', 'url' => ['/user/index']];
-                $navs[] = ['label' => 'My Courses', 'url' => ['/course/index']];
+                $navs[] = ['label' => 'My Courses', 'url' => ['/course/my-courses']];
                 $navs[] = ['label' => 'All Videos', 'url' => ['/video/index']];
                 break;
             case OvcRole::STUDENT;
                 $navs[] = ['label' => 'Latest Videos', 'url' => ['video/latest-videos']];
-                $navs[] = ['label' => 'My Courses', 'url' => ['/course/index']];
+                $navs[] = ['label' => 'My Courses', 'url' => ['/course/my-courses']];
                 $navs[] = ['label' => 'Videos', 'url' => ['/video/index']];
                 break;
             default:
