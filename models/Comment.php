@@ -16,23 +16,21 @@ use Yii;
  *
  * @property Video $video
  */
-class Comment extends \yii\db\ActiveRecord
-{
+class Comment extends \yii\db\ActiveRecord {
+
     /**
      * @inheritdoc
      */
-    public static function tableName()
-    {
+    public static function tableName() {
         return 'comment';
     }
 
     /**
      * @inheritdoc
      */
-    public function rules()
-    {
+    public function rules() {
         return [
-            [['text', 'video_id', 'user_id', 'created_at', 'modified_at'], 'required'],
+            [['text', 'video_id'], 'required'],
             [['text'], 'string'],
             [['video_id', 'user_id'], 'integer'],
             [['created_at', 'modified_at'], 'safe']
@@ -42,8 +40,7 @@ class Comment extends \yii\db\ActiveRecord
     /**
      * @inheritdoc
      */
-    public function attributeLabels()
-    {
+    public function attributeLabels() {
         return [
             'id' => 'ID',
             'text' => 'Text',
@@ -57,8 +54,26 @@ class Comment extends \yii\db\ActiveRecord
     /**
      * @return \yii\db\ActiveQuery
      */
-    public function getVideo()
-    {
+    public function getVideo() {
         return $this->hasOne(Video::className(), ['id' => 'video_id']);
     }
+
+    /**
+     * before save
+     * @param type $insert
+     * @return boolean
+     */
+    public function beforeSave($insert) {
+
+        if (parent::beforeSave($insert)) {
+            $this->modified_at = date('Y-m-d H:i:s');
+            $this->user_id = is_object(User::getCurrentUser()) ? User::getCurrentUser()->id : 0;
+            if ($this->isNewRecord) {
+                $this->created_at = date('Y-m-d H:i:s');
+            }
+            return true;
+        }
+        return false;
+    }
+
 }

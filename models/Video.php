@@ -42,7 +42,7 @@ class Video extends \yii\db\ActiveRecord {
         return [
             [['course_id', 'title', 'description'], 'required'],
             [['course_id', 'user_id'], 'integer'],
-            [['path'], 'file', 'extensions' => 'mp4, m4v', 'maxSize' => 51200000, 'tooBig' => 'Limit is 50MB'],
+            [['path'], 'file', 'extensions' => 'mp4, m4v, ogv, webm', 'maxSize' => 51200000, 'tooBig' => 'Limit is 50MB'],
             [['description'], 'string'],
             [['created_at', 'modified_at'], 'safe'],
             [['title', 'path'], 'string', 'max' => 255]

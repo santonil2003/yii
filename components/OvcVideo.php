@@ -19,5 +19,4 @@ class OvcVideo extends Component {
     public static function getLatestVideosByCourseIds($courseIds) {
         return \app\models\Video::findAll(['course_id' => $courseIds]);
     }
-
 }

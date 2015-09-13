@@ -31,6 +31,16 @@ class OvcUser extends Component {
     }
 
     /**
+     * get user full name
+     * @param type $userId
+     * @return type
+     */
+    public static function getUserFullName($userId) {
+        $User = \app\models\User::findOne($userId);
+        return $User->first_name . ' ' . $User->last_name;
+    }
+
+    /**
      * get query
      * @return \yii\db\Query
      */

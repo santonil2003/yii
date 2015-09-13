@@ -32,7 +32,11 @@ class OvcCourse extends Component {
                         ->column();
     }
 
-    public static function getUserCourseIds($userId) {
+    public static function getUserCourseIds($userId = null) {
+
+        if (empty($userId)) {
+            $userId = \app\components\OvcUser::getCurrentUser()->id;
+        }
 
         $User = User::findOne($userId);
 

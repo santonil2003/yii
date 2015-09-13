@@ -126,4 +126,27 @@ class CommentController extends Controller {
         }
     }
 
+    /**
+     * add comment
+     */
+    public function actionAddComment() {
+
+        if (!Yii::$app->request->isAjax) {
+            throw new \yii\web\ForbiddenHttpException('Illegal Request.');
+        }
+
+
+        $model = new Comment();
+        $model->video_id = Yii::$app->request->post('video_id');
+        $model->text = Yii::$app->request->post('text');
+
+        if ($model->save()) {
+            Yii::$app->runAction('video/get-comment-by-id', ['id' => $model->id]);
+        } else {
+            echo '';
+        }
+
+        exit();
+    }
+
 }

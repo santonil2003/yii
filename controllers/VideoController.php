@@ -11,6 +11,7 @@ use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 use yii\filters\AccessControl;
 use app\components\OvcUser;
+use app\components\OvcCourse;
 
 /**
  * VideoController implements the CRUD actions for Video model.
@@ -27,11 +28,11 @@ class VideoController extends Controller {
                         'allow' => true,
                         'roles' => ['@'],
                         'matchCallback' => function ($rule, $action) {
-                                return OvcUser::isUserAdmin() || OvcUser::isUserLecturer();
-                        }
+                    return OvcUser::isUserAdmin() || OvcUser::isUserLecturer();
+                }
                     ],
                     [
-                        'actions' => ['view', 'index', 'latest-videos'],
+                        'actions' => ['view', 'index', 'latest-videos', 'play', 'get-comment-by-id'],
                         'allow' => true,
                         'roles' => ['@'],
                     ],
@@ -161,6 +162,53 @@ class VideoController extends Controller {
      */
     public function actionLatestVideos() {
         return $this->render('latest_videos');
+    }
+
+    /**
+     * play a video
+     * @return type
+     * @throws NotFoundHttpException
+     * @throws \yii\web\ForbiddenHttpException
+     */
+    public function actionPlay() {
+
+        $id = Yii::$app->request->get('id');
+        $video = Video::findOne($id);
+
+        if (!is_object($video)) {
+            throw new NotFoundHttpException('Video not found.');
+        }
+
+        $userCourseIds = OvcCourse::getUserCourseIds();
+
+        if (!in_array($video->course_id, $userCourseIds)) {
+            throw new \yii\web\ForbiddenHttpException('Insufficient privileges to access this video.');
+        }
+
+        $comments = \app\models\Comment::find()
+                ->where(['video_id' => $video->id])
+                ->orderBy('id DESC')
+                ->all();
+
+        return $this->render('play', ['video' => $video, 'comments' => $comments]);
+    }
+
+    /**
+     * get comment on video
+     * @return type
+     */
+    public function actionGetCommentById($id = null) {
+
+        if (empty($id)) {
+            $id = Yii::$app->request->get('id');
+        }
+
+        $comment = \app\models\Comment::findOne($id);
+
+        echo $this->renderPartial('_comment_on_video', [
+            'comment' => $comment,
+            'style' => 'display:none;',
+        ]);
     }
 
 }
