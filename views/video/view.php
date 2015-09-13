@@ -2,6 +2,7 @@
 
 use yii\helpers\Html;
 use yii\widgets\DetailView;
+use app\components\OvcVideoPlayerWidget;
 
 /* @var $this yii\web\View */
 /* @var $model app\models\Video */
@@ -16,27 +17,30 @@ $this->params['breadcrumbs'][] = $this->title;
 
     <p>
         <?= Html::a('Update', ['update', 'id' => $model->id, 'course_id' => $model->course_id], ['class' => 'btn btn-primary']) ?>
-        <?= Html::a('Delete', ['delete', 'id' => $model->id, 'course_id' => $model->course_id], [
+        <?=
+        Html::a('Delete', ['delete', 'id' => $model->id, 'course_id' => $model->course_id], [
             'class' => 'btn btn-danger',
             'data' => [
                 'confirm' => 'Are you sure you want to delete this item?',
                 'method' => 'post',
             ],
-        ]) ?>
+        ])
+        ?>
     </p>
-
-    <?= DetailView::widget([
+    <?=
+    DetailView::widget([
         'model' => $model,
         'attributes' => [
             'id',
             'course_id',
             'title',
-            'description:ntext',
-            'path',
+            'description:html',
+            ['label' => 'path', 'value' => OvcVideoPlayerWidget::widget(['path' => $model->path]), 'format' => 'raw'],
             'user_id',
             'created_at',
             'modified_at',
         ],
-    ]) ?>
+    ])
+    ?>
 
 </div>

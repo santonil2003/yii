@@ -1,20 +1,18 @@
-<?php
-
-use yii\helpers\Url;
-?>
 <div class="row">
-<?php foreach ($latestVideos as $video): ?>
-        <div class="col-sm-4 col-md-3">
+    <?php foreach ($latestVideos as $video): ?>
+        <div class="col-md-2">
             <div class="thumbnail">
-                <!--<img src="<?php //echo Url::base() . '/' . $video->path  ?>" alt="">-->
                 <img src="<?= Yii::getAlias('@web'); ?>/images/video.png" alt="video"/>
-                <div class="caption">
-                    <h4><?php echo $video->title ?></h4>
-                    <p><?php echo $video->description ?></p>
-                </div>
+                <a href="">
+                    <div class="caption">
+                        <h4 class="text-center">
+                            <b><?php echo $video->title ?></b>
+                        </h4>
+                    </div>
+                </a>
             </div>
         </div>
-<?php endforeach; ?>
+    <?php endforeach; ?>
 </div>
 
 

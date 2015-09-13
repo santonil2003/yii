@@ -37,32 +37,39 @@ class OvcUtility extends Component {
     public function getAdminNavItems() {
         $navs = array();
 
+        $navs[0] = ['label' => 'Home', 'url' => ['/site/index'], 'linkOptions' => ['class' => 'glyphicon glyphicon-home']];
+        $navs[1] = ['label' => 'About', 'url' => ['/site/about'], 'linkOptions' => ['class' => 'glyphicon glyphicon-list-alt']];
+        $navs[2] = ['label' => 'Contact', 'url' => ['/site/contact'], 'linkOptions' => ['class' => 'glyphicon glyphicon-earphone']];
+        $navs[3] = ['label' => 'Login', 'url' => ['/site/login'], 'linkOptions' => ['class' => 'glyphicon glyphicon-lock']];
+
         if (Yii::$app->user->isGuest) {
             return $navs;
         }
+
+        unset($navs[3]);
 
         $User = Yii::$app->user->identity;
 
         switch ($User->role_id) {
             case OvcRole::ADMIN;
-                $navs[] = ['label' => 'Users', 'url' => ['/user/index'], 'linkOptions' => ['class' => 'glyphicon glyphicon-user']];
+                $navs[] = ['label' => 'Users', 'url' => ['/user/index'], 'linkOptions' => ['class' => 'ovc-nav-separate glyphicon glyphicon-user']];
                 $navs[] = ['label' => 'Courses', 'url' => ['/course/index'], 'linkOptions' => ['class' => 'glyphicon glyphicon-book']];
                 $navs[] = ['label' => 'Assign Course', 'url' => ['/user-has-course/index'], 'linkOptions' => ['class' => 'glyphicon glyphicon-link']];
                 $navs[] = ['label' => 'Videos', 'url' => ['/video/index'], 'linkOptions' => ['class' => 'glyphicon glyphicon-film']];
                 $navs[] = ['label' => 'Comments', 'url' => ['/comment/index'], 'linkOptions' => ['class' => 'glyphicon glyphicon-comment']];
-                $navs[] = ['label' => 'Logout', 'url' => ['/site/logout'], 'linkOptions' => ['class' => 'ovc-nav-logout glyphicon glyphicon-off', 'data-method' => 'post']];
+                $navs[] = ['label' => 'Logout', 'url' => ['/site/logout'], 'linkOptions' => ['class' => 'ovc-nav-separate glyphicon glyphicon-off', 'data-method' => 'post']];
                 break;
             case OvcRole::LECTURER;
-                $navs[] = ['label' => 'Students', 'url' => ['/user/index'], 'linkOptions' => ['class' => 'glyphicon glyphicon-user']];
+                $navs[] = ['label' => 'Students', 'url' => ['/user/index'], 'linkOptions' => ['class' => 'ovc-nav-separate glyphicon glyphicon-user']];
                 $navs[] = ['label' => 'My Courses', 'url' => ['/course/my-courses'], 'linkOptions' => ['class' => 'glyphicon glyphicon-book']];
                 $navs[] = ['label' => 'All Videos', 'url' => ['/video/index'], 'linkOptions' => ['class' => 'glyphicon glyphicon-film']];
-                $navs[] = ['label' => 'Logout', 'url' => ['/site/logout'], 'linkOptions' => ['class' => 'ovc-nav-logout glyphicon glyphicon-off', 'data-method' => 'post']];
+                $navs[] = ['label' => 'Logout', 'url' => ['/site/logout'], 'linkOptions' => ['class' => 'ovc-nav-separate glyphicon glyphicon-off', 'data-method' => 'post']];
                 break;
             case OvcRole::STUDENT;
-                $navs[] = ['label' => 'Latest Videos', 'url' => ['video/latest-videos'], 'linkOptions' => ['class' => 'glyphicon glyphicon-facetime-video']];
+                $navs[] = ['label' => 'Latest Videos', 'url' => ['video/latest-videos'], 'linkOptions' => ['class' => 'ovc-nav-separate glyphicon glyphicon-facetime-video']];
                 $navs[] = ['label' => 'My Courses', 'url' => ['/course/my-courses'], 'linkOptions' => ['class' => 'glyphicon glyphicon-book']];
                 $navs[] = ['label' => 'Videos', 'url' => ['/video/index'], 'linkOptions' => ['class' => 'glyphicon glyphicon-film']];
-                $navs[] = ['label' => 'Logout', 'url' => ['/site/logout'], 'linkOptions' => ['class' => 'ovc-nav-logout glyphicon glyphicon-off', 'data-method' => 'post']];
+                $navs[] = ['label' => 'Logout', 'url' => ['/site/logout'], 'linkOptions' => ['class' => 'ovc-nav-separate glyphicon glyphicon-off', 'data-method' => 'post']];
                 break;
             default:
                 break;

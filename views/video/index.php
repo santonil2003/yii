@@ -29,11 +29,7 @@ $this->params['breadcrumbs'][] = $this->title;
             'id',
             'course_id',
             'title',
-            'description:ntext',
-            'path',
-            // 'user_id',
-            // 'created_at',
-            // 'modified_at',
+            'description:html',
             [
                 'class' => 'yii\grid\ActionColumn',
                 'template' => \app\components\OvcUtility::getVideoActionTemplate(),

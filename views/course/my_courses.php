@@ -6,22 +6,24 @@ $this->title = 'My Courses';
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="course-index">
-
     <?php foreach ($myCourses as $course): ?>
-        <div class="row">
-            <div class="col-md-2">
-                <div class="thumbnail">
-                    <img src="<?= Yii::getAlias('@web'); ?>/images/course.png" alt="course"/>
-                    <div class="caption">
-                        <h3><?= $course->code; ?></h3>
-                        <p><?= $course->description; ?></p>
-                        <p><?= $course->name; ?></p>
+
+        <div class="panel panel-default">
+            <div class="panel-body">
+                <div data-example-id="media-alignment">
+                    <div class="media">
+                        <div class="media-left">
+                            <img src="<?= Yii::getAlias('@web'); ?>/images/course.png" alt="course" style="max-width: 65px;"/>
+                        </div>
+                        <div class="media-body">
+                            <h4 class="media-heading"><?= $course->code; ?></h4>
+                            <p><?= $course->name; ?></p>
+                            <?= $course->description; ?>
+                            <p class="text-right"><button type="button" class="btn btn-primary btn-xs">Videos</button></p>
+                        </div>
                     </div>
                 </div>
             </div>
-        <?php endforeach; ?>
-
-
-    </div>
-
+        </div>
+    <?php endforeach; ?>
 </div>
