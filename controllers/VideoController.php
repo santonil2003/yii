@@ -68,8 +68,27 @@ class VideoController extends Controller {
      * @return mixed
      */
     public function actionView($id, $course_id) {
+
+        $video = Video::findOne($id);
+
+        if (!is_object($video)) {
+            throw new NotFoundHttpException('Video not found.');
+        }
+
+        $userCourseIds = OvcCourse::getUserCourseIds();
+
+        if (!in_array($video->course_id, $userCourseIds)) {
+            throw new \yii\web\ForbiddenHttpException('Insufficient privileges to access this video.');
+        }
+
+        $comments = \app\models\Comment::find()
+                ->where(['video_id' => $video->id])
+                ->orderBy('id DESC')
+                ->all();
+
         return $this->render('view', [
                     'model' => $this->findModel($id, $course_id),
+                    'comments' => $comments,
         ]);
     }
 
@@ -162,35 +181,6 @@ class VideoController extends Controller {
      */
     public function actionLatestVideos() {
         return $this->render('latest_videos');
-    }
-
-    /**
-     * play a video
-     * @return type
-     * @throws NotFoundHttpException
-     * @throws \yii\web\ForbiddenHttpException
-     */
-    public function actionPlay() {
-
-        $id = Yii::$app->request->get('id');
-        $video = Video::findOne($id);
-
-        if (!is_object($video)) {
-            throw new NotFoundHttpException('Video not found.');
-        }
-
-        $userCourseIds = OvcCourse::getUserCourseIds();
-
-        if (!in_array($video->course_id, $userCourseIds)) {
-            throw new \yii\web\ForbiddenHttpException('Insufficient privileges to access this video.');
-        }
-
-        $comments = \app\models\Comment::find()
-                ->where(['video_id' => $video->id])
-                ->orderBy('id DESC')
-                ->all();
-
-        return $this->render('play', ['video' => $video, 'comments' => $comments]);
     }
 
     /**

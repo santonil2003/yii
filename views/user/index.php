@@ -12,13 +12,11 @@ $this->title = 'Users';
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="user-index">
-
-    <h1><?= Html::encode($this->title) ?></h1>
-
-    <p>
+    <p class="text-right">
         <?= Html::a('Create User', ['create'], ['class' => 'btn btn-success']) ?>
     </p>
 
+    <?php \yii\widgets\Pjax::begin(); ?>
     <?=
     GridView::widget([
         'dataProvider' => $dataProvider,
@@ -52,5 +50,6 @@ $this->params['breadcrumbs'][] = $this->title;
         ],
     ]);
     ?>
+    <?php \yii\widgets\Pjax::end(); ?>
 
 </div>

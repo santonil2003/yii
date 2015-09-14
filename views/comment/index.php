@@ -12,28 +12,36 @@ $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="comment-index">
 
-    <h1><?= Html::encode($this->title) ?></h1>
+
     <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
 
-    <p>
+    <p class="text-right">
         <?= Html::a('Create Comment', ['create'], ['class' => 'btn btn-success']) ?>
     </p>
 
-    <?= GridView::widget([
+    <?php \yii\widgets\Pjax::begin(); ?>
+    <?=
+    GridView::widget([
         'dataProvider' => $dataProvider,
         'filterModel' => $searchModel,
         'columns' => [
             ['class' => 'yii\grid\SerialColumn'],
-
-            'id',
-            'text:ntext',
+            //'id',
+            'text:html',
             'video_id',
             'user_id',
-            'created_at',
+            [
+                'attribute' => 'created_at',
+                'format' => 'datetime',
+                'value' => function($data) {
+                    return $data->created_at;
+                }
+            ],
             // 'modified_at',
-
             ['class' => 'yii\grid\ActionColumn'],
         ],
-    ]); ?>
+    ]);
+    ?>
+    <?php \yii\widgets\Pjax::end(); ?>
 
 </div>

@@ -12,11 +12,8 @@ $this->title = 'Courses';
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="course-index">
-
-    <h1><?= Html::encode($this->title) ?></h1>
-
     <?php if (User::getCurrentUserRole() == OvcRole::ADMIN && User::getCurrentUserRole()) : ?>
-        <p>
+        <p class="text-right">
             <?= Html::a('Create Course', ['create'], ['class' => 'btn btn-success']) ?>
         </p>
     <?php endif; ?>
@@ -29,8 +26,14 @@ $this->params['breadcrumbs'][] = $this->title;
             'id',
             'code',
             'name',
-            'description:ntext',
-            'created_at',
+            'description:html',
+            [
+                'attribute' => 'created_at',
+                'format' => 'datetime',
+                'value' => function($data) {
+                    return $data->created_at;
+                }
+            ],
             [
                 'class' => 'yii\grid\ActionColumn',
                 'template' => \app\components\OvcUtility::getCourseActionTemplate(),

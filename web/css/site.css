@@ -215,3 +215,23 @@ a.desc:after {
 .ovc-border-up{
     border-top: #f5f5f5 solid 1px;
 }
+
+.ovc-tab-body{
+    border-bottom: #ddd solid 1px;
+    border-right: #ddd solid 1px;
+    border-left: #ddd solid 1px;
+    padding: 10px;
+}
+
+a{
+    outline: none !important;
+}
+
+.ovc-latest-video .collapse-toggle, .ovc-latest-video .collapse-toggle:hover{
+    text-decoration: none !important;
+    font-weight: bold;
+}
+
+.ovc-latest-video a.collapse-toggle{
+    display: block;
+}
