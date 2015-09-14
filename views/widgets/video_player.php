@@ -1,4 +1,4 @@
-<video controls width="<?= $width; ?>"> 
+<video controls style="width: 100%;"> 
     <source src="<?= \Yii::getAlias('@web') . '/' . $path; ?>" type="<?= $type; ?>"/> 
 </video>
 

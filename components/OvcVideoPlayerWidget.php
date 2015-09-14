@@ -15,7 +15,6 @@ use app\components\OvcVideo;
 class OvcVideoPlayerWidget extends Widget {
 
     public $path;
-    public $width = 600;
 
     public function init() {
         parent::init();
@@ -53,7 +52,7 @@ class OvcVideoPlayerWidget extends Widget {
         }
 
 
-        return $this->render('video_player', ['path' => $this->path, 'type' => $type, 'width' => $this->width]);
+        return $this->render('video_player', ['path' => $this->path, 'type' => $type]);
     }
 
 }

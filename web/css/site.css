@@ -232,6 +232,6 @@ a{
     font-weight: bold;
 }
 
-.ovc-latest-video a.collapse-toggle{
-    display: block;
+.ovc-latest-video .thumbnail{
+    overflow: hidden !important;
 }

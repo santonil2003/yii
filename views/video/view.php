@@ -12,7 +12,7 @@ $currentUserId = app\components\OvcUser::getCurrentUser()->id;
 ?>
 <div class="row">
     <div class="col-lg-7">
-<?= OvcVideoPlayerWidget::widget(['path' => $model->path, 'width' => 600]); ?>
+        <?= OvcVideoPlayerWidget::widget(['path' => $model->path]); ?>
     </div>
     <div class="col-lg-5">
         <table class="table table-bordered table-striped">
@@ -23,7 +23,7 @@ $currentUserId = app\components\OvcUser::getCurrentUser()->id;
             <tr>
                 <td>Description</td>
                 <td>
-                    <div style="height: 104px; overflow-y: scroll;"><?= $model->description ?></div>
+                    <div style="height: 92px; overflow-y: scroll;"><?= $model->description ?></div>
                 </td>
             </tr>
             <tr>
