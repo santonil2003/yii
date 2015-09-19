@@ -4,6 +4,7 @@ namespace app\controllers;
 
 use Yii;
 use app\models\Video;
+use app\models\VideoSearch;
 use yii\web\UploadedFile;
 use yii\data\ActiveDataProvider;
 use yii\web\Controller;
@@ -52,15 +53,11 @@ class VideoController extends Controller {
      * @return mixed
      */
     public function actionIndex() {
-
-        $userCourseIds = \app\components\OvcCourse::getUserCourseIds();
-
-
-        $dataProvider = new ActiveDataProvider([
-            'query' => Video::find()->where(['course_id' => $userCourseIds]),
-        ]);
+        $searchModel = new VideoSearch();
+        $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 
         return $this->render('index', [
+                    'searchModel' => $searchModel,
                     'dataProvider' => $dataProvider,
         ]);
     }

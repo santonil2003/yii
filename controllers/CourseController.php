@@ -3,12 +3,12 @@
 namespace app\controllers;
 
 use Yii;
-use yii\data\ActiveDataProvider;
+use app\models\Course;
+use app\models\CourseSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 use yii\filters\AccessControl;
-use app\models\Course;
 use app\components\OvcUser;
 
 /**
@@ -59,11 +59,11 @@ class CourseController extends Controller {
      * @return mixed
      */
     public function actionIndex() {
-        $dataProvider = new ActiveDataProvider([
-            'query' => Course::find(),
-        ]);
+        $searchModel = new CourseSearch();
+        $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 
         return $this->render('index', [
+                    'searchModel' => $searchModel,
                     'dataProvider' => $dataProvider,
         ]);
     }

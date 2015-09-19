@@ -12,7 +12,7 @@ $currentUserId = app\components\OvcUser::getCurrentUser()->id;
 ?>
 <div class="row">
     <div class="col-lg-7">
-        <?= OvcVideoPlayerWidget::widget(['path' => $model->path]); ?>
+<?= OvcVideoPlayerWidget::widget(['path' => $model->path]); ?>
     </div>
     <div class="col-lg-5">
         <table class="table table-bordered table-striped">
@@ -58,6 +58,7 @@ $this->render('_add_comment_on_video', [
     'currentUserId' => $currentUserId,
 ]);
 ?>
+</p>
 
 <div class="new-comment"></div>
 <?php foreach ($comments as $comment): ?>

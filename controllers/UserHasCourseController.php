@@ -4,8 +4,8 @@ namespace app\controllers;
 
 use Yii;
 use app\models\UserHasCourse;
+use app\models\UserHasCourseSearch;
 use app\components\OvcUser;
-use yii\data\ActiveDataProvider;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\AccessControl;
@@ -44,11 +44,11 @@ class UserHasCourseController extends Controller {
      * @return mixed
      */
     public function actionIndex() {
-        $dataProvider = new ActiveDataProvider([
-            'query' => UserHasCourse::find(),
-        ]);
+        $searchModel = new UserHasCourseSearch();
+        $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 
         return $this->render('index', [
+                    'searchModel' => $searchModel,
                     'dataProvider' => $dataProvider,
         ]);
     }

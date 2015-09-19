@@ -25,7 +25,7 @@ use app\models\Course;
             Course::find()->select(['CONCAT(code," ( ", name," )") as name', 'id'])->indexBy('id')->column(), ['prompt' => 'Select Course']
     );
     ?>
-    
+
     <div class="form-group">
         <?= Html::submitButton($model->isNewRecord ? 'Create' : 'Update', ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>
     </div>

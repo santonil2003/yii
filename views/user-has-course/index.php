@@ -6,6 +6,7 @@ use app\models\User;
 use app\models\Course;
 
 /* @var $this yii\web\View */
+/* @var $searchModel app\models\UserHasCourseSearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
 $this->title = 'User Has Courses';
@@ -13,6 +14,8 @@ $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="user-has-course-index">
 
+    <h1><?= Html::encode($this->title) ?></h1>
+    <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
 
     <p class="text-right">
         <?= Html::a('Create User Has Course', ['create'], ['class' => 'btn btn-success']) ?>
@@ -22,6 +25,7 @@ $this->params['breadcrumbs'][] = $this->title;
     <?=
     GridView::widget([
         'dataProvider' => $dataProvider,
+        'filterModel' => $searchModel,
         'columns' => [
             ['class' => 'yii\grid\SerialColumn'],
             [

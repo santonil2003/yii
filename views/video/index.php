@@ -6,6 +6,7 @@ use app\models\User;
 use app\components\OvcRole;
 
 /* @var $this yii\web\View */
+/* @var $searchModel app\models\VideoSearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
 $this->title = 'Videos';
@@ -23,30 +24,25 @@ $this->params['breadcrumbs'][] = $this->title;
     <?=
     GridView::widget([
         'dataProvider' => $dataProvider,
+        'filterModel' => $searchModel,
         'columns' => [
             ['class' => 'yii\grid\SerialColumn'],
             'id',
             'title',
+            [
+                'attribute' => 'course_id',
+                'format' => 'raw',
+                'value' => function($data) {
+                    return \app\models\Course::findOne($data->course_id)->name;
+                }
+            ],
+            'created_at',
             [
                 'label' => 'Comments',
                 'format' => 'raw',
                 'value' => function ($data) {
                     return count(app\models\Comment::findAll(['video_id' => $data->id]));
                 },
-                    ],
-                    [
-                        'attribute' => 'course_id',
-                        'format' => 'raw',
-                        'value' => function($data) {
-                            return \app\models\Course::findOne($data->course_id)->name;
-                        }
-                    ],
-                    [
-                        'attribute' => 'created_at',
-                        'format' => 'datetime',
-                        'value' => function($data) {
-                            return $data->created_at;
-                        }
                     ],
                     [
                         'class' => 'yii\grid\ActionColumn',

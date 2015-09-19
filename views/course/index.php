@@ -6,6 +6,7 @@ use app\models\User;
 use app\components\OvcRole;
 
 /* @var $this yii\web\View */
+/* @var $searchModel app\models\CourseSearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
 $this->title = 'Courses';
@@ -21,19 +22,14 @@ $this->params['breadcrumbs'][] = $this->title;
     <?=
     GridView::widget([
         'dataProvider' => $dataProvider,
+        'filterModel' => $searchModel,
         'columns' => [
             ['class' => 'yii\grid\SerialColumn'],
             'id',
             'code',
             'name',
             //'description:html',
-            [
-                'attribute' => 'created_at',
-                'format' => 'datetime',
-                'value' => function($data) {
-                    return $data->created_at;
-                }
-            ],
+            'created_at',
             [
                 'class' => 'yii\grid\ActionColumn',
                 'template' => \app\components\OvcUtility::getCourseActionTemplate(),

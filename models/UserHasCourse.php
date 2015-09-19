@@ -13,21 +13,19 @@ use Yii;
  * @property Course $course
  * @property User $user
  */
-class UserHasCourse extends \yii\db\ActiveRecord
-{
+class UserHasCourse extends \yii\db\ActiveRecord {
+
     /**
      * @inheritdoc
      */
-    public static function tableName()
-    {
+    public static function tableName() {
         return 'user_has_course';
     }
 
     /**
      * @inheritdoc
      */
-    public function rules()
-    {
+    public function rules() {
         return [
             [['user_id', 'course_id'], 'required'],
             [['user_id', 'course_id'], 'integer']
@@ -37,8 +35,7 @@ class UserHasCourse extends \yii\db\ActiveRecord
     /**
      * @inheritdoc
      */
-    public function attributeLabels()
-    {
+    public function attributeLabels() {
         return [
             'user_id' => 'User ID',
             'course_id' => 'Course ID',
@@ -48,16 +45,15 @@ class UserHasCourse extends \yii\db\ActiveRecord
     /**
      * @return \yii\db\ActiveQuery
      */
-    public function getCourse()
-    {
+    public function getCourse() {
         return $this->hasOne(Course::className(), ['id' => 'course_id']);
     }
 
     /**
      * @return \yii\db\ActiveQuery
      */
-    public function getUser()
-    {
+    public function getUser() {
         return $this->hasOne(User::className(), ['id' => 'user_id']);
     }
+
 }
