@@ -31,7 +31,7 @@ body {
 
 /* Hide for mobile, show later */
 .sidebar {
-    display: none;
+    /*display: none;*/
 }
 @media (min-width: 768px) {
     .sidebar {
@@ -210,6 +210,10 @@ a.desc:after {
     background-color: #f2f2f2;
     padding:10px;
     margin-bottom: 8px;
+    position: relative;
+}
+
+.ovc-edit-comment{
 }
 
 .ovc-border-up{
@@ -234,4 +238,19 @@ a{
 
 .ovc-latest-video .thumbnail{
     overflow: hidden !important;
+}
+
+.comment-action {
+    position: absolute;
+    right: 8px;
+    z-index: 100;
+}
+
+.comment-action span{
+    color: #337ab7;
+}
+
+.comment-action span:hover{
+    cursor: pointer;
+    color: #32527c;
 }

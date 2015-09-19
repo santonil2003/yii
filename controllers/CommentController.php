@@ -105,7 +105,11 @@ class CommentController extends Controller {
      * @return mixed
      */
     public function actionDelete($id, $video_id) {
-        $this->findModel($id, $video_id)->delete();
+        $result = $this->findModel($id, $video_id)->delete();
+
+        if (Yii::$app->request->isAjax) {
+            exit("1");
+        }
 
         return $this->redirect(['index']);
     }
@@ -147,6 +151,36 @@ class CommentController extends Controller {
         }
 
         exit();
+    }
+
+    /**
+     * inline update 
+     * @param type $id
+     * @param type $video_id
+     */
+    public function actionInlineUpdate($id) {
+        Yii::$app->runAction('video/inline-update-comment', ['id' => $id]);
+    }
+
+    /**
+     * inline save
+     * @throws \yii\web\ForbiddenHttpException
+     */
+    public function actionInlineSave() {
+
+        $id = Yii::$app->request->post('id');
+
+        $model = Comment::findOne($id);
+
+        if (!Yii::$app->request->isAjax || !is_object($model)) {
+            throw new \yii\web\ForbiddenHttpException('Illegal Request.');
+        }
+
+        $model->text = Yii::$app->request->post('text');
+
+        if ($model->save()) {
+            Yii::$app->runAction('video/get-comment-by-id', ['id' => $model->id]);
+        }
     }
 
 }

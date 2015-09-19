@@ -32,7 +32,7 @@ class VideoController extends Controller {
                 }
                     ],
                     [
-                        'actions' => ['view', 'index', 'latest-videos', 'play', 'get-comment-by-id'],
+                        'actions' => ['view', 'index', 'latest-videos', 'play', 'get-comment-by-id', 'inline-update-comment'],
                         'allow' => true,
                         'roles' => ['@'],
                     ],
@@ -105,8 +105,10 @@ class VideoController extends Controller {
 
             $model->imageFile = UploadedFile::getInstance($model, 'path');
 
-            if ($model->upload()) {
-                
+            $path = $model->upload();
+
+            if ($path) {
+                $model->path = $path;
             }
 
             return $this->redirect(['view', 'id' => $model->id, 'course_id' => $model->course_id]);
@@ -199,6 +201,16 @@ class VideoController extends Controller {
             'comment' => $comment,
             'style' => 'display:none;',
         ]);
+    }
+
+    /**
+     * inline update comment
+     */
+    public function actionInlineUpdateComment() {
+        $id = Yii::$app->request->get('id');
+        $comment = \app\models\Comment::findOne($id);
+        $currentUserId = \app\components\OvcUser::getCurrentUser()->id;
+        echo $this->renderPartial('_edit_comment_on_video', ['comment' => $comment, 'currentUserId' => $currentUserId]);
     }
 
 }

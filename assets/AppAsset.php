@@ -23,6 +23,7 @@ class AppAsset extends AssetBundle {
     ];
     public $js = [
         'js/ovc.js',
+        'js/ovc.video.js',
         'js/jquery.timeago.js',
     ];
     public $depends = [
