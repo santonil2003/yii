@@ -48,6 +48,7 @@ class Comment extends \yii\db\ActiveRecord {
             'user_id' => 'User ID',
             'created_at' => 'Created At',
             'modified_at' => 'Modified At',
+            'video_title' => 'Title',
         ];
     }
 
@@ -56,6 +57,29 @@ class Comment extends \yii\db\ActiveRecord {
      */
     public function getVideo() {
         return $this->hasOne(Video::className(), ['id' => 'video_id']);
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getUser() {
+        return $this->hasOne(User::className(), ['id' => 'user_id']);
+    }
+
+    /**
+     * get video title
+     * @return type
+     */
+    public function getVideoTitle() {
+        return $this->video->title;
+    }
+
+    /**
+     * get username
+     * @return type
+     */
+    public function getUsername() {
+        return $this->user->username;
     }
 
     /**

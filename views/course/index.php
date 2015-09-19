@@ -26,7 +26,7 @@ $this->params['breadcrumbs'][] = $this->title;
             'id',
             'code',
             'name',
-            'description:html',
+            //'description:html',
             [
                 'attribute' => 'created_at',
                 'format' => 'datetime',

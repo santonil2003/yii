@@ -60,14 +60,14 @@ class OvcUtility extends Component {
                 $navs[] = ['label' => 'Logout', 'url' => ['/site/logout'], 'linkOptions' => ['class' => 'ovc-nav-separate glyphicon glyphicon-off', 'data-method' => 'post']];
                 break;
             case OvcRole::LECTURER;
-                $navs[] = ['label' => 'Students', 'url' => ['/user/index'], 'linkOptions' => ['class' => 'ovc-nav-separate glyphicon glyphicon-user']];
-                $navs[] = ['label' => 'My Courses', 'url' => ['/course/my-courses'], 'linkOptions' => ['class' => 'glyphicon glyphicon-book']];
-                $navs[] = ['label' => 'All Videos', 'url' => ['/video/index'], 'linkOptions' => ['class' => 'glyphicon glyphicon-film']];
+                $navs[] = ['label' => 'Students', 'url' => ['/user/related-users'], 'linkOptions' => ['class' => 'ovc-nav-separate glyphicon glyphicon-user']];
+                $navs[] = ['label' => 'Courses', 'url' => ['/course/my-courses'], 'linkOptions' => ['class' => 'glyphicon glyphicon-book']];
+                $navs[] = ['label' => 'Videos', 'url' => ['/video/index'], 'linkOptions' => ['class' => 'glyphicon glyphicon-film']];
                 $navs[] = ['label' => 'Logout', 'url' => ['/site/logout'], 'linkOptions' => ['class' => 'ovc-nav-separate glyphicon glyphicon-off', 'data-method' => 'post']];
                 break;
             case OvcRole::STUDENT;
                 $navs[] = ['label' => 'Latest Videos', 'url' => ['video/latest-videos'], 'linkOptions' => ['class' => 'ovc-nav-separate glyphicon glyphicon-facetime-video']];
-                $navs[] = ['label' => 'My Courses', 'url' => ['/course/my-courses'], 'linkOptions' => ['class' => 'glyphicon glyphicon-book']];
+                $navs[] = ['label' => 'Courses', 'url' => ['/course/my-courses'], 'linkOptions' => ['class' => 'glyphicon glyphicon-book']];
                 $navs[] = ['label' => 'Videos', 'url' => ['/video/index'], 'linkOptions' => ['class' => 'glyphicon glyphicon-film']];
                 $navs[] = ['label' => 'Logout', 'url' => ['/site/logout'], 'linkOptions' => ['class' => 'ovc-nav-separate glyphicon glyphicon-off', 'data-method' => 'post']];
                 break;
@@ -115,6 +115,14 @@ class OvcUtility extends Component {
             case OvcRole::STUDENT;
             default :
                 return '{view}';
+        }
+    }
+
+    public static function getUserActionTemplate() {
+        if (\app\components\OvcUser::isUserAdmin()) {
+            return '{view}&nbsp;{update}&nbsp;{delete}';
+        } else {
+            return '';
         }
     }
 

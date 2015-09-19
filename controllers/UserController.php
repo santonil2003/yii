@@ -27,6 +27,11 @@ class UserController extends Controller {
                         'matchCallback' => function ($rule, $action) {
                     return OvcUser::isUserAdmin();
                 }
+                    ],
+                    [
+                        'actions' => ['related-users'],
+                        'allow' => true,
+                        'roles' => ['@']
                     ]
                 ],
             ],
@@ -131,6 +136,19 @@ class UserController extends Controller {
         } else {
             throw new NotFoundHttpException('The requested page does not exist.');
         }
+    }
+
+    public function actionRelatedUsers() {
+        $courseIds = \app\components\OvcCourse::getUserCourseIds();
+        $userIds = \app\components\OvcUser::getUserIdsByCourseIds($courseIds);
+
+        $dataProvider = new ActiveDataProvider([
+            'query' => User::find()->where(['id' => $userIds, 'role_id' => \app\components\OvcRole::STUDENT]),
+        ]);
+
+        return $this->render('linked-users', [
+                    'dataProvider' => $dataProvider,
+        ]);
     }
 
 }

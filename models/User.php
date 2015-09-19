@@ -140,7 +140,7 @@ class User extends \yii\db\ActiveRecord implements \yii\web\IdentityInterface {
      * @return static|null  
      */
     public static function findByUsername($username) {
-        return static::findOne(['username' => $username]);
+        return static::findOne(['username' => $username, 'active' => '1']);
     }
 
     /**
@@ -174,7 +174,6 @@ class User extends \yii\db\ActiveRecord implements \yii\web\IdentityInterface {
 
         return ($user->role_id == '1') ? true : false;
     }
-    
 
     public static function getActiveLabel($active) {
         switch ($active) {

@@ -7,7 +7,8 @@ use Yii;
 class TestController extends \yii\web\Controller {
 
     public function actionIndex() {
-        $msg = \app\components\OvcCourse::getUserCourses();
+        $courseIds = \app\components\OvcCourse::getUserCourseIds();
+        $msg = \app\components\OvcUser::getUserIdsByCourseIds($courseIds);
         return $this->render('index', ['msg' => $msg]);
     }
 

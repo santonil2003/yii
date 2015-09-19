@@ -28,15 +28,16 @@ $this->params['breadcrumbs'][] = $this->title;
             ['class' => 'yii\grid\SerialColumn'],
             //'id',
             'text:html',
-            'video_id',
-            'user_id',
-            [
-                'attribute' => 'created_at',
-                'format' => 'datetime',
-                'value' => function($data) {
-                    return $data->created_at;
-                }
-            ],
+            'videoTitle',
+            'username',
+            'created_at',
+//            [
+//                'attribute' => 'created_at',
+//                'format' => 'datetime',
+//                'value' => function($data) {
+//                    return $data->created_at;
+//                }
+//            ],
             // 'modified_at',
             ['class' => 'yii\grid\ActionColumn'],
         ],

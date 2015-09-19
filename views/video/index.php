@@ -26,13 +26,6 @@ $this->params['breadcrumbs'][] = $this->title;
         'columns' => [
             ['class' => 'yii\grid\SerialColumn'],
             'id',
-            [
-                'attribute' => 'course_id',
-                'format' => 'raw',
-                'value' => function($data) {
-                    return \app\models\Course::findOne($data->course_id)->name;
-                }
-            ],
             'title',
             [
                 'label' => 'Comments',
@@ -40,6 +33,13 @@ $this->params['breadcrumbs'][] = $this->title;
                 'value' => function ($data) {
                     return count(app\models\Comment::findAll(['video_id' => $data->id]));
                 },
+                    ],
+                    [
+                        'attribute' => 'course_id',
+                        'format' => 'raw',
+                        'value' => function($data) {
+                            return \app\models\Course::findOne($data->course_id)->name;
+                        }
                     ],
                     [
                         'attribute' => 'created_at',

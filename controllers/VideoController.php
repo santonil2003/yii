@@ -52,8 +52,12 @@ class VideoController extends Controller {
      * @return mixed
      */
     public function actionIndex() {
+
+        $userCourseIds = \app\components\OvcCourse::getUserCourseIds();
+
+
         $dataProvider = new ActiveDataProvider([
-            'query' => Video::find(),
+            'query' => Video::find()->where(['course_id' => $userCourseIds]),
         ]);
 
         return $this->render('index', [

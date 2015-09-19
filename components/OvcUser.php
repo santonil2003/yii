@@ -60,6 +60,14 @@ class OvcUser extends Component {
                         ->all();
     }
 
+    public static function getUserIdsByCourseIds($courseIds) {
+        return self::getQuery()
+                        ->select('user_id')
+                        ->from('user_has_course')
+                        ->where(['course_id' => $courseIds])
+                        ->column();
+    }
+
     /**
      * get current user role
      * @return boolean
