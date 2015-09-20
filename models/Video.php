@@ -62,6 +62,7 @@ class Video extends \yii\db\ActiveRecord {
             'user_id' => 'User ID',
             'created_at' => 'Created At',
             'modified_at' => 'Modified At',
+            'commentCount' => 'Comments',
         ];
     }
 
@@ -77,6 +78,18 @@ class Video extends \yii\db\ActiveRecord {
      */
     public function getCourse() {
         return $this->hasOne(Course::className(), ['id' => 'course_id']);
+    }
+
+    /**
+     * get course name
+     * @return type
+     */
+    public function getCourseName() {
+        return $this->course->name;
+    }
+
+    public function getCommentCount() {
+        return count($this->comments);
     }
 
     /**

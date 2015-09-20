@@ -3,9 +3,6 @@
 namespace app\components;
 
 use yii\base\Widget;
-use app\components\OvcUser;
-use app\components\OvcCourse;
-use app\components\OvcVideo;
 
 /**
  * Description of OvcLatestVideoWidget
@@ -15,9 +12,18 @@ use app\components\OvcVideo;
 class OvcVideoPlayerWidget extends Widget {
 
     public $path;
+    public $cssClass = '';
+    public $controls = true;
+    public $startTime = '#t=00:00:00';
 
     public function init() {
         parent::init();
+
+        if ($this->controls) {
+            $this->controls = 'controls';
+        } else {
+            $this->controls = '';
+        }
     }
 
     /**
@@ -52,7 +58,7 @@ class OvcVideoPlayerWidget extends Widget {
         }
 
 
-        return $this->render('video_player', ['path' => $this->path, 'type' => $type]);
+        return $this->render('video_player', ['startTime' => $this->startTime, 'controls' => $this->controls, 'path' => $this->path, 'type' => $type, 'cssClass' => $this->cssClass]);
     }
 
 }

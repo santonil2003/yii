@@ -8,15 +8,19 @@ use dosamigos\tinymce\TinyMce;
 /* @var $this yii\web\View */
 /* @var $model app\models\Video */
 /* @var $form yii\widgets\ActiveForm */
+
+/**
+ * user course id;
+ */
+$courseIds = \app\components\OvcCourse::getUserCourseIds();
 ?>
 
 <div class="video-form">
 
     <?php $form = ActiveForm::begin(['options' => ['enctype' => 'multipart/form-data']]) ?>
-
     <?=
     $form->field($model, 'course_id')->dropdownList(
-            Course::find()->select(['name', 'id'])->indexBy('id')->column(), ['prompt' => 'Select Course']
+            Course::find()->select(['name', 'id'])->where(['id' => $courseIds])->indexBy('id')->column(), ['prompt' => 'Select Course']
     );
     ?>
 

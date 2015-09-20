@@ -15,7 +15,7 @@ $this->params['breadcrumbs'][] = $this->title;
 
     <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
 
-    <p class="text-right">
+    <p class="text-right hide">
         <?= Html::a('Create Comment', ['create'], ['class' => 'btn btn-success']) ?>
     </p>
 
@@ -31,15 +31,10 @@ $this->params['breadcrumbs'][] = $this->title;
             'videoTitle',
             'username',
             'created_at',
-//            [
-//                'attribute' => 'created_at',
-//                'format' => 'datetime',
-//                'value' => function($data) {
-//                    return $data->created_at;
-//                }
-//            ],
-            // 'modified_at',
-            ['class' => 'yii\grid\ActionColumn'],
+            [
+                'class' => 'yii\grid\ActionColumn',
+                'template' => \app\components\OvcUtility::getCommentActionTemplate(),
+            ],
         ],
     ]);
     ?>

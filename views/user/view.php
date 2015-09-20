@@ -12,8 +12,25 @@ $this->params['breadcrumbs'][] = ['label' => 'Users', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="user-view">
-
-    <h1><?= Html::encode($this->title) ?></h1>
+    <?=
+    DetailView::widget([
+        'model' => $model,
+        'attributes' => [
+            'id',
+            'first_name',
+            'last_name',
+            'username',
+            'password',
+            'email:email',
+            ['label' => 'Active', 'value' => ($model->active == 1) ? 'Active' : 'Inactive'],
+            'role.name',
+            'auth_key',
+            'access_token',
+            'created_at',
+            'modified_at',
+        ],
+    ])
+    ?>
 
     <p>
         <?= Html::a('Update', ['update', 'id' => $model->id, 'role_id' => $model->role_id], ['class' => 'btn btn-primary']) ?>
@@ -27,25 +44,5 @@ $this->params['breadcrumbs'][] = $this->title;
         ])
         ?>
     </p>
-
-    <?=
-    DetailView::widget([
-        'model' => $model,
-        'attributes' => [
-            'id',
-            'first_name',
-            'last_name',
-            'username',
-            'password',
-            'email:email',
-            ['label' => 'Active', 'value' => ($model->active == 1) ? 'Active' : 'Inactive'],
-            ['label' => 'Role', 'value' => Role::findOne($model->role_id)->name],
-            'auth_key',
-            'access_token',
-            'created_at',
-            'modified_at',
-        ],
-    ])
-    ?>
 
 </div>

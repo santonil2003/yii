@@ -30,24 +30,8 @@ $this->params['breadcrumbs'][] = $this->title;
             'username',
             //'password',
             'email:email',
-            [
-                'attribute' => 'active',
-                'format' => 'raw',
-                'value' => function($data) {
-                    return User::getActiveLabel($data->active);
-                }
-            ],
-            [
-                'attribute' => 'role_id',
-                'format' => 'raw',
-                'value' => function($data) {
-                    return Role::findOne($data->role_id)->name;
-                }
-            ],
-            // 'auth_key',
-            // 'access_token',
-            // 'created_at',
-            // 'modified_at',
+            'active',
+            'roleName',
             [
                 'class' => 'yii\grid\ActionColumn',
                 'template' => \app\components\OvcUtility::getUserActionTemplate(),

@@ -60,14 +60,14 @@ class OvcUtility extends Component {
                 $navs[] = ['label' => 'Logout', 'url' => ['/site/logout'], 'linkOptions' => ['class' => 'ovc-nav-separate glyphicon glyphicon-off', 'data-method' => 'post']];
                 break;
             case OvcRole::LECTURER;
-                $navs[] = ['label' => 'Students', 'url' => ['/user/related-users'], 'linkOptions' => ['class' => 'ovc-nav-separate glyphicon glyphicon-user']];
-                $navs[] = ['label' => 'Courses', 'url' => ['/course/my-courses'], 'linkOptions' => ['class' => 'glyphicon glyphicon-book']];
+                $navs[] = ['label' => 'My Students', 'url' => ['/user/related-users'], 'linkOptions' => ['class' => 'ovc-nav-separate glyphicon glyphicon-user']];
+                $navs[] = ['label' => 'My Courses', 'url' => ['/course/my-courses'], 'linkOptions' => ['class' => 'glyphicon glyphicon-book']];
                 $navs[] = ['label' => 'Videos', 'url' => ['/video/index'], 'linkOptions' => ['class' => 'glyphicon glyphicon-film']];
                 $navs[] = ['label' => 'Logout', 'url' => ['/site/logout'], 'linkOptions' => ['class' => 'ovc-nav-separate glyphicon glyphicon-off', 'data-method' => 'post']];
                 break;
             case OvcRole::STUDENT;
                 $navs[] = ['label' => 'Latest Videos', 'url' => ['video/latest-videos'], 'linkOptions' => ['class' => 'ovc-nav-separate glyphicon glyphicon-facetime-video']];
-                $navs[] = ['label' => 'Courses', 'url' => ['/course/my-courses'], 'linkOptions' => ['class' => 'glyphicon glyphicon-book']];
+                $navs[] = ['label' => 'My Courses', 'url' => ['/course/my-courses'], 'linkOptions' => ['class' => 'glyphicon glyphicon-book']];
                 $navs[] = ['label' => 'Videos', 'url' => ['/video/index'], 'linkOptions' => ['class' => 'glyphicon glyphicon-film']];
                 $navs[] = ['label' => 'Logout', 'url' => ['/site/logout'], 'linkOptions' => ['class' => 'ovc-nav-separate glyphicon glyphicon-off', 'data-method' => 'post']];
                 break;
@@ -91,9 +91,9 @@ class OvcUtility extends Component {
 
         switch ($User->role_id) {
             case OvcRole::ADMIN;
-                return '{view}&nbsp;{update}&nbsp;{delete}';
+                return '<div class="width-50">{view}&nbsp;{update}&nbsp;{delete}</div>';
             case OvcRole::LECTURER;
-                return '{view}&nbsp;{update}';
+                return '<div class="width-34">{view}&nbsp;{update}</div>';
             case OvcRole::STUDENT;
             default :
                 return '{view}';
@@ -109,18 +109,42 @@ class OvcUtility extends Component {
 
         switch ($User->role_id) {
             case OvcRole::ADMIN;
-                return '{view}&nbsp;{update}&nbsp;{delete}';
             case OvcRole::LECTURER;
-                return '{view}&nbsp;{update}&nbsp;{delete}';
+                return '<div class="width-50">{view}&nbsp;{update}&nbsp;{delete}</div>';
             case OvcRole::STUDENT;
             default :
                 return '{view}';
         }
     }
 
+    public static function getCommentActionTemplate() {
+        if (Yii::$app->user->isGuest) {
+            return '';
+        }
+
+        $User = Yii::$app->user->identity;
+
+        switch ($User->role_id) {
+            case OvcRole::ADMIN;
+            case OvcRole::LECTURER;
+                return '<div class="width-34">{view}&nbsp;{delete}</div>';
+            case OvcRole::STUDENT;
+            default :
+                return '{view}';
+        }
+    }
+
+    public static function getUserHasCourseActionTemplate() {
+        if (\app\components\OvcUser::isUserAdmin()) {
+            return '<div class="width-50">{view}&nbsp;{update}&nbsp;{delete}</div>';
+        } else {
+            return '';
+        }
+    }
+
     public static function getUserActionTemplate() {
         if (\app\components\OvcUser::isUserAdmin()) {
-            return '{view}&nbsp;{update}&nbsp;{delete}';
+            return '<div class="width-50">{view}&nbsp;{update}&nbsp;{delete}</div>';
         } else {
             return '';
         }

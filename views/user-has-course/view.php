@@ -13,8 +13,15 @@ $this->params['breadcrumbs'][] = ['label' => 'User Has Courses', 'url' => ['inde
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="user-has-course-view">
-
-    <h1><?= Html::encode($this->title) ?></h1>
+    <?=
+    DetailView::widget([
+        'model' => $model,
+        'attributes' => [
+            ['label' => 'User', 'value' => User::findOne($model->user_id)->first_name . ' ' . User::findOne($model->user_id)->last_name . ' ( ' . User::findOne($model->user_id)->username . ' )'],
+            ['label' => 'Course', 'value' => Course::findOne($model->course_id)->code . ' ( ' . Course::findOne($model->course_id)->name . ' )'],
+        ],
+    ])
+    ?>
 
     <p>
         <?= Html::a('Update', ['update', 'user_id' => $model->user_id, 'course_id' => $model->course_id], ['class' => 'btn btn-primary']) ?>
@@ -28,15 +35,4 @@ $this->params['breadcrumbs'][] = $this->title;
         ])
         ?>
     </p>
-
-    <?=
-    DetailView::widget([
-        'model' => $model,
-        'attributes' => [
-            ['label' => 'User', 'value' => User::findOne($model->user_id)->first_name . ' ' . User::findOne($model->user_id)->last_name . ' ( ' . User::findOne($model->user_id)->username . ' )'],
-            ['label' => 'Course', 'value' => Course::findOne($model->course_id)->code . ' ( ' . Course::findOne($model->course_id)->name . ' )'],
-        ],
-    ])
-    ?>
-
 </div>

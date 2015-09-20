@@ -10,23 +10,30 @@ use app\models\UserHasCourse;
 /**
  * UserHasCourseSearch represents the model behind the search form about `app\models\UserHasCourse`.
  */
-class UserHasCourseSearch extends UserHasCourse
-{
+class UserHasCourseSearch extends UserHasCourse {
+
+    /**
+     * add related fields to searchable attributes
+     * @return type
+     */
+    public function attributes() {
+        return array_merge(parent::attributes(), ['course.name', 'user.username', 'user.role.name']);
+    }
+
     /**
      * @inheritdoc
      */
-    public function rules()
-    {
+    public function rules() {
         return [
             [['user_id', 'course_id'], 'integer'],
+            [['course.name', 'user.username', 'user.role.name'], 'safe'],
         ];
     }
 
     /**
      * @inheritdoc
      */
-    public function scenarios()
-    {
+    public function scenarios() {
         // bypass scenarios() implementation in the parent class
         return Model::scenarios();
     }
@@ -38,13 +45,34 @@ class UserHasCourseSearch extends UserHasCourse
      *
      * @return ActiveDataProvider
      */
-    public function search($params)
-    {
-        $query = UserHasCourse::find();
+    public function search($params) {
+        $query = UserHasCourse::find()
+                ->joinWith('course')
+                ->joinWith('user')
+                ->innerJoin('role', 'role.id = user.role_id');
 
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
         ]);
+
+
+        /**
+         * sortin related columns
+         */
+        $dataProvider->sort->attributes['course.name'] = [
+            'asc' => ['course.name' => SORT_ASC],
+            'desc' => ['course.name' => SORT_DESC],
+        ];
+
+        $dataProvider->sort->attributes['user.username'] = [
+            'asc' => ['user.username' => SORT_ASC],
+            'desc' => ['user.username' => SORT_DESC],
+        ];
+
+        $dataProvider->sort->attributes['user.role.name'] = [
+            'asc' => ['role.name' => SORT_ASC],
+            'desc' => ['role.name' => SORT_DESC],
+        ];
 
         $this->load($params);
 
@@ -59,6 +87,12 @@ class UserHasCourseSearch extends UserHasCourse
             'course_id' => $this->course_id,
         ]);
 
+        $query->andFilterWhere(['LIKE', 'course.name', $this->getAttribute('course.name')]);
+        $query->andFilterWhere(['LIKE', 'user.username', $this->getAttribute('user.username')]);
+        $query->andFilterWhere(['LIKE', 'role.name', $this->getAttribute('user.role.name')]);
+
+
         return $dataProvider;
     }
+
 }

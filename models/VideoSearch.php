@@ -13,12 +13,25 @@ use app\models\Video;
 class VideoSearch extends Video {
 
     /**
+     * related column
+     * @var courseName
+     */
+    public $courseName;
+
+    /**
+     * virtual column
+     * comment count
+     * @var type 
+     */
+    public $commentCount;
+
+    /**
      * @inheritdoc
      */
     public function rules() {
         return [
             [['id', 'course_id', 'user_id'], 'integer'],
-            [['title', 'description', 'path', 'created_at', 'modified_at'], 'safe'],
+            [['title', 'description', 'path', 'created_at', 'modified_at', 'courseName', 'commentCount'], 'safe'],
         ];
     }
 
@@ -33,7 +46,7 @@ class VideoSearch extends Video {
     /**
      * Creates data provider instance with search query applied
      *
-     * @param array $params
+     * @param array $paramss
      *
      * @return ActiveDataProvider
      */
@@ -41,11 +54,28 @@ class VideoSearch extends Video {
 
         $userCourseIds = \app\components\OvcCourse::getUserCourseIds();
 
-        $query = Video::find()->where(['course_id' => $userCourseIds]);
+        $commentCount = "(SELECT COUNT(*) AS nos FROM comment AS c WHERE c.video_id = video.id)";
+        $query = Video::find()
+                ->select("video.*, course.name, $commentCount as commentCount")
+                ->innerJoin('course', '`video`.`course_id` = `course`.`id`')
+                ->where(['video.course_id' => $userCourseIds]);
 
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
         ]);
+
+
+        /**
+         * additional columns to be sorted
+         */
+        $dataProvider->sort->attributes['courseName'] = [
+            'asc' => ['course.name' => SORT_ASC],
+            'desc' => ['course.name' => SORT_DESC],
+        ];
+        $dataProvider->sort->attributes['commentCount'] = [
+            'asc' => ['commentCount' => SORT_ASC],
+            'desc' => ['commentCount' => SORT_DESC],
+        ];
 
         $this->load($params);
 
@@ -56,16 +86,18 @@ class VideoSearch extends Video {
         }
 
         $query->andFilterWhere([
-            'id' => $this->id,
-            'course_id' => $this->course_id,
-            'user_id' => $this->user_id,
-            'created_at' => $this->created_at,
-            'modified_at' => $this->modified_at,
+            'video.id' => $this->id,
+            'video.course_id' => $this->course_id,
+            'video.user_id' => $this->user_id,
+            'video.created_at' => $this->created_at,
+            'video.modified_at' => $this->modified_at,
+            $commentCount => $this->commentCount,
         ]);
 
-        $query->andFilterWhere(['like', 'title', $this->title])
-                ->andFilterWhere(['like', 'description', $this->description])
-                ->andFilterWhere(['like', 'path', $this->path]);
+        $query->andFilterWhere(['like', 'video.title', $this->title])
+                ->andFilterWhere(['like', 'video.description', $this->description])
+                ->andFilterWhere(['like', 'video.path', $this->path])
+                ->andFilterWhere(['like', 'course.name', $this->courseName]);
 
         return $dataProvider;
     }

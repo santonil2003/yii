@@ -62,6 +62,8 @@ class User extends \yii\db\ActiveRecord implements \yii\web\IdentityInterface {
             'access_token' => 'Access Token',
             'created_at' => 'Created At',
             'modified_at' => 'Modified At',
+            'role.name' => 'Role',
+            'role_name' => 'Role',
         ];
     }
 
@@ -87,6 +89,14 @@ class User extends \yii\db\ActiveRecord implements \yii\web\IdentityInterface {
     }
 
     /*     * ****************************************************Modifiy below****************************************************** */
+
+    /**
+     * get role name
+     * @return type
+     */
+    public function getRoleName() {
+        return $this->role->name;
+    }
 
     /**
      * @inheritdoc  

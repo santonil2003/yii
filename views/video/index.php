@@ -29,28 +29,16 @@ $this->params['breadcrumbs'][] = $this->title;
             ['class' => 'yii\grid\SerialColumn'],
             'id',
             'title',
-            [
-                'attribute' => 'course_id',
-                'format' => 'raw',
-                'value' => function($data) {
-                    return \app\models\Course::findOne($data->course_id)->name;
-                }
-            ],
+            'courseName',
             'created_at',
+            'commentCount',
             [
-                'label' => 'Comments',
-                'format' => 'raw',
-                'value' => function ($data) {
-                    return count(app\models\Comment::findAll(['video_id' => $data->id]));
-                },
-                    ],
-                    [
-                        'class' => 'yii\grid\ActionColumn',
-                        'template' => \app\components\OvcUtility::getVideoActionTemplate(),
-                    ],
-                ],
-            ]);
-            ?>
-            <?php \yii\widgets\Pjax::end(); ?>
+                'class' => 'yii\grid\ActionColumn',
+                'template' => \app\components\OvcUtility::getVideoActionTemplate(),
+            ],
+        ],
+    ]);
+    ?>
+    <?php \yii\widgets\Pjax::end(); ?>
 
 </div>

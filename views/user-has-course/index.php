@@ -14,7 +14,6 @@ $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="user-has-course-index">
 
-    <h1><?= Html::encode($this->title) ?></h1>
     <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
 
     <p class="text-right">
@@ -28,21 +27,16 @@ $this->params['breadcrumbs'][] = $this->title;
         'filterModel' => $searchModel,
         'columns' => [
             ['class' => 'yii\grid\SerialColumn'],
+            'course.name',
+            'user.username',
+            'user.role.name',
+            'user.first_name',
+            'user.last_name',
+            'user.email',
             [
-                'attribute' => 'user_id',
-                'format' => 'raw',
-                'value' => function($data) {
-                    return User::findOne($data->user_id)->first_name . ' ' . User::findOne($data->user_id)->last_name . '( ' . User::findOne($data->user_id)->username . ' )';
-                }
+                'class' => 'yii\grid\ActionColumn',
+                'template' => \app\components\OvcUtility::getUserHasCourseActionTemplate(),
             ],
-            [
-                'attribute' => 'course_id',
-                'format' => 'raw',
-                'value' => function($data) {
-                    return Course::findOne($data->course_id)->code . '( ' . Course::findOne($data->course_id)->name . ' )';
-                }
-            ],
-            ['class' => 'yii\grid\ActionColumn'],
         ],
     ]);
     ?>

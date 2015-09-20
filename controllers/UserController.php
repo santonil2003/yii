@@ -136,14 +136,11 @@ class UserController extends Controller {
     }
 
     public function actionRelatedUsers() {
-        $courseIds = \app\components\OvcCourse::getUserCourseIds();
-        $userIds = \app\components\OvcUser::getUserIdsByCourseIds($courseIds);
-
-        $dataProvider = new ActiveDataProvider([
-            'query' => User::find()->where(['id' => $userIds, 'role_id' => \app\components\OvcRole::STUDENT]),
-        ]);
+        $searchModel = new UserSearch();
+        $dataProvider = $searchModel->studentSearch(Yii::$app->request->queryParams);
 
         return $this->render('linked-users', [
+                    'searchModel' => $searchModel,
                     'dataProvider' => $dataProvider,
         ]);
     }

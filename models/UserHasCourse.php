@@ -39,6 +39,8 @@ class UserHasCourse extends \yii\db\ActiveRecord {
         return [
             'user_id' => 'User ID',
             'course_id' => 'Course ID',
+            'course.name' => ' Course',
+            'user.role.name' => ' Role',
         ];
     }
 

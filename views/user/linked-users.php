@@ -2,13 +2,12 @@
 
 use yii\helpers\Html;
 use yii\grid\GridView;
-use app\models\User;
-use app\models\Role;
 
 /* @var $this yii\web\View */
+/* @var $searchModel app\models\UserSearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
-$this->title = 'Users';
+$this->title = 'Students';
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="user-index">
@@ -16,27 +15,21 @@ $this->params['breadcrumbs'][] = $this->title;
     <?=
     GridView::widget([
         'dataProvider' => $dataProvider,
+        'filterModel' => $searchModel,
         'columns' => [
             ['class' => 'yii\grid\SerialColumn'],
             'id',
             'first_name',
             'last_name',
+            'username',
+            //'password',
             'email:email',
+            'active',
+            'roleName',
             [
-                'attribute' => 'active',
-                'format' => 'raw',
-                'value' => function($data) {
-                    return User::getActiveLabel($data->active);
-                }
+                'class' => 'yii\grid\ActionColumn',
+                'template' => \app\components\OvcUtility::getUserActionTemplate(),
             ],
-            [
-                'attribute' => 'role_id',
-                'format' => 'raw',
-                'value' => function($data) {
-                    return Role::findOne($data->role_id)->name;
-                }
-            ],
-            'created_at',
         ],
     ]);
     ?>

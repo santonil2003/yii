@@ -2,7 +2,8 @@
 
 use app\components\OvcLatestVideoWidget;
 
-$this->title = 'Latest Video';
+$this->title = 'Latest Videos';
+$this->params['breadcrumbs'][] = $this->title;
 ?>
 
 <?= OvcLatestVideoWidget::widget(); ?>

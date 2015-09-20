@@ -50,7 +50,7 @@ class CommentSearch extends Comment {
                 ->innerJoin('video', '`video`.`id` = `comment`.`video_id`')
                 ->innerJoin('user', '`user`.`id` = `comment`.`user_id`');
 
-// echo $query->createCommand()->sql;exit;
+        // echo $query->createCommand()->sql;exit;
 
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
@@ -58,8 +58,6 @@ class CommentSearch extends Comment {
                 'pageSize' => 10,
             ],
         ]);
-
-        $this->load($params);
 
         /**
          * Setup your sorting attributes
@@ -87,6 +85,8 @@ class CommentSearch extends Comment {
                 ]
             ]
         ]);
+
+        $this->load($params);
 
         if (!$this->validate()) {
             // uncomment the following line if you do not want to return any records when validation fails
