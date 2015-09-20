@@ -19,6 +19,7 @@ use yii\web\UploadedFile;
  * @property string $modified_at
  *
  * @property Comment[] $comments
+ * @property User $user
  * @property Course $course
  */
 class Video extends \yii\db\ActiveRecord {
@@ -76,6 +77,13 @@ class Video extends \yii\db\ActiveRecord {
     /**
      * @return \yii\db\ActiveQuery
      */
+    public function getUser() {
+        return $this->hasOne(User::className(), ['id' => 'user_id']);
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
     public function getCourse() {
         return $this->hasOne(Course::className(), ['id' => 'course_id']);
     }
@@ -88,6 +96,10 @@ class Video extends \yii\db\ActiveRecord {
         return $this->course->name;
     }
 
+    /**
+     * get comment counts
+     * @return type
+     */
     public function getCommentCount() {
         return count($this->comments);
     }
