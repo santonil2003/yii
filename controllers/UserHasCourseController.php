@@ -110,7 +110,6 @@ class UserHasCourseController extends Controller {
      */
     public function actionDelete($user_id, $course_id) {
         $this->findModel($user_id, $course_id)->delete();
-
         return $this->redirect(['index']);
     }
 
