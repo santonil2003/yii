@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Generation Time: Sep 03, 2015 at 12:10 AM
+-- Generation Time: Sep 20, 2015 at 09:16 PM
 -- Server version: 5.5.44-0ubuntu0.14.04.1
 -- PHP Version: 5.5.9-1ubuntu4.11
 
@@ -35,7 +35,7 @@ CREATE TABLE IF NOT EXISTS `comment` (
   `modified_at` datetime NOT NULL,
   PRIMARY KEY (`id`,`video_id`),
   KEY `fk_comment_video_idx` (`video_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=112 ;
 
 -- --------------------------------------------------------
 
@@ -51,14 +51,7 @@ CREATE TABLE IF NOT EXISTS `course` (
   `created_at` datetime NOT NULL,
   `modified_at` datetime NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=2 ;
-
---
--- Dumping data for table `course`
---
-
-INSERT INTO `course` (`id`, `code`, `name`, `description`, `created_at`, `modified_at`) VALUES
-(1, 'COIT1234', 'java programming', '', '2015-09-02 06:52:51', '2015-09-02 06:52:51');
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=9 ;
 
 -- --------------------------------------------------------
 
@@ -114,16 +107,16 @@ CREATE TABLE IF NOT EXISTS `user` (
   `modified_at` datetime NOT NULL,
   PRIMARY KEY (`id`,`role_id`),
   KEY `fk_user_role1_idx` (`role_id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=6 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=12 ;
 
 --
 -- Dumping data for table `user`
 --
 
 INSERT INTO `user` (`id`, `first_name`, `last_name`, `username`, `password`, `email`, `active`, `role_id`, `auth_key`, `access_token`, `created_at`, `modified_at`) VALUES
-(3, 'Sanil', 'Shrestha', 'admin', 'admin', 'sanil.shrestha@cqumail.com', 1, 1, '', NULL, '2015-01-01 00:00:00', '2015-01-01 00:00:00'),
-(4, 'ram', 'shyam', 'Lecturer', 'Lecturer', 'ram@yahoo.com', 1, 2, 'RBoi_Hah041v4JAknyM2quPvINgRVW7c', 'AT6x1U7HGQQSj9kosREUcvvovArRi_2V', '2011-03-03 00:00:00', '2015-09-01 03:50:53'),
-(5, 'student', 'student', 'student', 'student', 'student@pcim.com.au', 1, 3, 'mfNGLw0YCwoIarq7M2D9NLJN4e6wJVOC', 'O-koRM03migStcZhsX7-Vsad8GdMf1-W', '2015-09-02 02:59:50', '2015-09-02 03:58:38');
+(1, 'sanil', 'shrestha', 'admin', 'admin', 'sanil@cqumail.com', 1, 1, NULL, NULL, '2015-09-20 00:00:00', '2015-09-20 00:00:00'),
+(10, 'suraj', 'burma', 'suraj', 'suraj', 'suraj.barma@cqumail.com', 1, 2, 'VPIyC4SSMx7RwpLxQgTHUxRjrd2WRY1s', '-_Z5zookR-zEFY1p0XjRHHfXjQGpZTlz', '2015-09-20 10:59:09', '2015-09-20 10:59:09'),
+(11, 'gyan', 'pandey', 'gyan', 'gyan', 'gyan@pandey.com', 1, 3, 'lib-bf9W8uuJHGyFf7irSNkd_Z-qhjaC', 'H12zoHbL_ZwkGPSl6YoR1Dmo5vTf0RbC', '2015-09-20 10:59:39', '2015-09-20 10:59:39');
 
 -- --------------------------------------------------------
 
@@ -154,16 +147,10 @@ CREATE TABLE IF NOT EXISTS `video` (
   `user_id` int(11) NOT NULL,
   `created_at` datetime NOT NULL,
   `modified_at` datetime NOT NULL,
-  PRIMARY KEY (`id`,`course_id`),
-  KEY `fk_video_course1_idx` (`course_id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=6 ;
-
---
--- Dumping data for table `video`
---
-
-INSERT INTO `video` (`id`, `course_id`, `title`, `description`, `path`, `user_id`, `created_at`, `modified_at`) VALUES
-(5, 1, 'week 1', 'test test', '', 3, '2015-09-02 13:44:44', '2015-09-02 14:08:30');
+  PRIMARY KEY (`id`,`course_id`,`user_id`),
+  KEY `fk_video_course1_idx` (`course_id`),
+  KEY `fk_video_user1_idx` (`user_id`)
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=29 ;
 
 --
 -- Constraints for dumped tables
@@ -173,26 +160,27 @@ INSERT INTO `video` (`id`, `course_id`, `title`, `description`, `path`, `user_id
 -- Constraints for table `comment`
 --
 ALTER TABLE `comment`
-  ADD CONSTRAINT `fk_comment_video` FOREIGN KEY (`video_id`) REFERENCES `video` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION;
+  ADD CONSTRAINT `fk_comment_video` FOREIGN KEY (`video_id`) REFERENCES `video` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION;
 
 --
 -- Constraints for table `user`
 --
 ALTER TABLE `user`
-  ADD CONSTRAINT `fk_user_role1` FOREIGN KEY (`role_id`) REFERENCES `role` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION;
+  ADD CONSTRAINT `fk_user_role1` FOREIGN KEY (`role_id`) REFERENCES `role` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION;
 
 --
 -- Constraints for table `user_has_course`
 --
 ALTER TABLE `user_has_course`
-  ADD CONSTRAINT `fk_user_has_course_course1` FOREIGN KEY (`course_id`) REFERENCES `course` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
-  ADD CONSTRAINT `fk_user_has_course_user1` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION;
+  ADD CONSTRAINT `fk_user_has_course_course1` FOREIGN KEY (`course_id`) REFERENCES `course` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION,
+  ADD CONSTRAINT `fk_user_has_course_user1` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION;
 
 --
 -- Constraints for table `video`
 --
 ALTER TABLE `video`
-  ADD CONSTRAINT `fk_video_course1` FOREIGN KEY (`course_id`) REFERENCES `course` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION;
+  ADD CONSTRAINT `fk_video_user1` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION,
+  ADD CONSTRAINT `fk_video_course1` FOREIGN KEY (`course_id`) REFERENCES `course` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
