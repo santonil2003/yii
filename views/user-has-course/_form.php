@@ -9,7 +9,6 @@ use app\models\Course;
 /* @var $model app\models\UserHasCourse */
 /* @var $form yii\widgets\ActiveForm */
 ?>
-
 <div class="user-has-course-form">
 
     <?php $form = ActiveForm::begin(); ?>
@@ -33,3 +32,6 @@ use app\models\Course;
     <?php ActiveForm::end(); ?>
 
 </div>
+<script>
+    var user_has_course_form_url = '<?= \yii\helpers\Url::to(['user-has-course/get-unassigned-course']) ?>';
+</script>

@@ -21,7 +21,7 @@ class OvcLatestVideoWidget extends Widget {
         if ($this->latestVideos === null) {
             $User = OvcUser::getCurrentUser();
             $courseIds = OvcCourse::getUserCourseIds($User->id);
-            $this->latestVideos = OvcVideo::getLatestVideosByCourseIds($courseIds);
+            $this->latestVideos = \app\models\Video::find()->where(['course_id' => $courseIds])->orderBy('id DESC')->limit(16)->all();
         }
     }
 

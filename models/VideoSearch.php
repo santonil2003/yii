@@ -62,6 +62,9 @@ class VideoSearch extends Video {
 
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
+            'pagination' => [
+                'pageSize' => Yii::$app->params['pageSize'],
+            ],
         ]);
 
 

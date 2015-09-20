@@ -55,7 +55,7 @@ class CommentSearch extends Comment {
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
             'pagination' => [
-                'pageSize' => 10,
+                'pageSize' => Yii::$app->params['pageSize'],
             ],
         ]);
 

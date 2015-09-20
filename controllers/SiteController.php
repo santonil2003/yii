@@ -9,10 +9,6 @@ use yii\filters\VerbFilter;
 use app\models\LoginForm;
 use app\models\ContactForm;
 use app\components\OvcRole;
-use app\components\OvcUser;
-use app\components\OvcCourse;
-use app\components\OvcVideo;
-use app\components\OvcDebug;
 
 class SiteController extends Controller {
 

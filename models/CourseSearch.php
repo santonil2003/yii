@@ -10,13 +10,12 @@ use app\models\Course;
 /**
  * CourseSearch represents the model behind the search form about `app\models\Course`.
  */
-class CourseSearch extends Course
-{
+class CourseSearch extends Course {
+
     /**
      * @inheritdoc
      */
-    public function rules()
-    {
+    public function rules() {
         return [
             [['id'], 'integer'],
             [['code', 'name', 'description', 'created_at', 'modified_at'], 'safe'],
@@ -26,8 +25,7 @@ class CourseSearch extends Course
     /**
      * @inheritdoc
      */
-    public function scenarios()
-    {
+    public function scenarios() {
         // bypass scenarios() implementation in the parent class
         return Model::scenarios();
     }
@@ -39,12 +37,14 @@ class CourseSearch extends Course
      *
      * @return ActiveDataProvider
      */
-    public function search($params)
-    {
+    public function search($params) {
         $query = Course::find();
 
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
+            'pagination' => [
+                'pageSize' => Yii::$app->params['pageSize'],
+            ],
         ]);
 
         $this->load($params);
@@ -62,9 +62,10 @@ class CourseSearch extends Course
         ]);
 
         $query->andFilterWhere(['like', 'code', $this->code])
-            ->andFilterWhere(['like', 'name', $this->name])
-            ->andFilterWhere(['like', 'description', $this->description]);
+                ->andFilterWhere(['like', 'name', $this->name])
+                ->andFilterWhere(['like', 'description', $this->description]);
 
         return $dataProvider;
     }
+
 }

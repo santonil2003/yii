@@ -2,7 +2,7 @@
     <?php foreach ($latestVideos as $video): ?>
         <div class="col-sm-4 col-md-3">
             <div class="thumbnail">
-                <?= \app\components\OvcVideoPlayerWidget::widget(['path' => $video->path, 'controls' => true, 'startTime' => '#t=00:00:01', 'cssClass' => 'player-lastest-videos']); ?>
+                <?= \app\components\OvcVideoPlayerWidget::widget(['path' => $video->path, 'controls' => false, 'startTime' => '#t=00:00:01', 'cssClass' => 'player-lastest-videos']); ?>
                 <div class="caption">
                     <table>
                         <tr>

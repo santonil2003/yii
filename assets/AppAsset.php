@@ -24,7 +24,8 @@ class AppAsset extends AssetBundle {
     public $js = [
         'js/ovc.js',
         'js/ovc.video.js',
-        'js/jquery.timeago.js'
+        'js/jquery.timeago.js',
+        'js/ovc.userhascourse.js'
     ];
     public $depends = [
         'yii\web\YiiAsset',

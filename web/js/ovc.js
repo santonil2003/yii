@@ -12,7 +12,7 @@ var ovc_ajax = function (url, data, output) {
         data: data
     }).done(function (msg) {
         if (msg) {
-            $(output).append(msg);
+            $(output).html(msg);
         }
     });
 };

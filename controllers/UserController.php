@@ -114,7 +114,15 @@ class UserController extends Controller {
      * @return mixed
      */
     public function actionDelete($id, $role_id) {
-        $this->findModel($id, $role_id)->delete();
+        $user = $this->findModel($id, $role_id);
+
+        if (count($user->courses) > 0) {
+            $courses = count($user->courses);
+            Yii::$app->getSession()->setFlash('danger', "Sorry, This User can not be deleted. It has '$courses' active courses.");
+            return $this->redirect(['user/index']);
+        }
+
+        $user->delete();
 
         return $this->redirect(['index']);
     }

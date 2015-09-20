@@ -130,8 +130,15 @@ class UserHasCourseController extends Controller {
         }
     }
 
-    public function actionGetUnassignedCourse($user_id) {
-        
+    /**
+     * get unassigned course
+     */
+    public function actionGetUnassignedCourse() {
+        $userId = Yii::$app->request->post('user_id');
+        $userCourseIds = \app\components\OvcCourse::getUserCourseIds($userId);
+        $items = \app\models\Course::find()->select(['CONCAT(code," ( ", name," )") as name', 'id'])->where(['not in', 'id', $userCourseIds])->indexBy('id')->column();
+        $items = array_merge(['' => 'Select Course'], $items);
+        echo \yii\helpers\Html::dropDownList('UserHasCourse[course_id]', null, $items, ['id' => 'userhascourse-course_id', 'class' => 'form-control']);
     }
 
 }

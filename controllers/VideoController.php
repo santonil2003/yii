@@ -112,6 +112,8 @@ class VideoController extends Controller {
                 $model->path = $path;
             }
 
+            $model->save();
+
             return $this->redirect(['view', 'id' => $model->id, 'course_id' => $model->course_id]);
         } else {
             return $this->render('create', [
@@ -157,7 +159,14 @@ class VideoController extends Controller {
      * @return mixed
      */
     public function actionDelete($id, $course_id) {
-        $this->findModel($id, $course_id)->delete();
+        $video = $this->findModel($id, $course_id);
+
+        if (count($video->comments) > 0) {
+            Yii::$app->getSession()->setFlash('danger', "Sorry, This video can not be deleted. It has '" . count($video->comments) . "' active comments.");
+            return $this->redirect(['video/index']);
+        }
+
+        $video->delete();
 
         return $this->redirect(['index']);
     }

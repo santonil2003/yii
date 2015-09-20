@@ -48,6 +48,7 @@ class UserSearch extends User {
 
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
+            'pagination' => array('pageSize' => Yii::$app->params['pageSize']),
         ]);
 
         $this->load($params);
@@ -104,6 +105,9 @@ class UserSearch extends User {
 
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
+            'pagination' => [
+                'pageSize' => Yii::$app->params['pageSize'],
+            ],
         ]);
 
         $this->load($params);

@@ -37,8 +37,8 @@ class UserHasCourse extends \yii\db\ActiveRecord {
      */
     public function attributeLabels() {
         return [
-            'user_id' => 'User ID',
-            'course_id' => 'Course ID',
+            'user_id' => 'User',
+            'course_id' => 'Available Course',
             'course.name' => ' Course',
             'user.role.name' => ' Role',
         ];

@@ -1,16 +1,24 @@
 <?php
+
 use yii\helpers\Html;
 
 /* @var $this yii\web\View */
 $this->title = 'About';
 $this->params['breadcrumbs'][] = $this->title;
 ?>
+
+<script src="http://maps.googleapis.com/maps/api/js"></script>
+<script>
+    function initialize() {
+        var mapProp = {
+            center: new google.maps.LatLng(-33.871464, 151.204796),
+            zoom: 15,
+            mapTypeId: google.maps.MapTypeId.ROADMAP
+        };
+        var map = new google.maps.Map(document.getElementById("googleMap"), mapProp);
+    }
+    google.maps.event.addDomListener(window, 'load', initialize);
+</script>
 <div class="site-about">
-    <h1><?= Html::encode($this->title) ?></h1>
-
-    <p>
-        This is the About page. You may modify the following file to customize its content:
-    </p>
-
-    <code><?= __FILE__ ?></code>
+    <div id="googleMap" style="height:380px;"></div>
 </div>

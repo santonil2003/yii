@@ -53,6 +53,9 @@ class UserHasCourseSearch extends UserHasCourse {
 
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
+            'pagination' => [
+                'pageSize' => Yii::$app->params['pageSize'],
+            ],
         ]);
 
 

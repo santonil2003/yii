@@ -121,7 +121,22 @@ class CourseController extends Controller {
      * @return mixed
      */
     public function actionDelete($id) {
-        $this->findModel($id)->delete();
+
+        $model = $this->findModel($id);
+
+        if (count($model->videos) > 0) {
+            $videos = count($model->videos);
+            Yii::$app->getSession()->setFlash('danger', "Sorry, This course can not be deleted. It has '$videos' active videos.");
+            return $this->redirect(['course/index']);
+        }
+
+        if (count($model->userHasCourses) > 0) {
+            $userHasCourses = count($model->userHasCourses);
+            Yii::$app->getSession()->setFlash('danger', "Sorry, This course can not be deleted. It is assigned to  '$userHasCourses' users.");
+            return $this->redirect(['course/index']);
+        }
+
+        $model->delete();
 
         return $this->redirect(['index']);
     }
